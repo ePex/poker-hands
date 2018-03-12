@@ -1,0 +1,46 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Poker Hands!</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+        <!--Import Google Icon Font-->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <!-- Compiled and minified CSS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="col s12">
+                    <h1 class="center-align">Welcome to Poker Hands!</h1>
+                    <h5 class="center-align">This little tool will compare two given poker hands and tell you which one will win.</h5>
+                    <p>Enter given hands in the following format: TBD</p>
+                </div>
+            </div>
+            <form action="#" th:action="@{/poker-hands/compare-hands}" th:object="${compareHandsDto}" method="post">
+                <div class="row">
+                    <div class="col s6">
+                        <label th:for="firstHand" th:text="'First Hand:'" />
+                        <input type="text" th:field="*{firstHand}" />
+                    </div>
+                    <div class="col s6">
+                        <label th:for="secondHand" th:text="'Second Hand:'" />
+                        <input type="text" th:field="*{secondHand}" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12 right-align">
+                        <button class="btn waves-effect waves-light" type="submit" name="action">Submit
+                            <i class="material-icons right">send</i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!--Import jQuery before materialize.js-->
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+        <!-- Compiled and minified JavaScript -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+    </body>
+</html>
