@@ -16,7 +16,7 @@ Make sure java8 home is on your path and then run the following commands
 mvn clean package
  
 # run the application
-java -jar target/pokerhands-0.0.1-SNAPSHOT.jar
+java -jar target/poker-hands-0.0.1-SNAPSHOT.jar
 ```
 
 # Todo
