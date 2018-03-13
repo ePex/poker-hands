@@ -25,7 +25,8 @@ public class HandRankerTest {
 
     @Test
     public void testGetRankTwoPairs() {
-        fail();
+        Rank result = classUnderTest.getRank("S4 D8 H8 CJ SJ");
+        assertThat(result, is(equalTo(Rank.TWO_PAIRS)));
     }
 
     @Test

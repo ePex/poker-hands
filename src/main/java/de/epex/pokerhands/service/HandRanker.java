@@ -18,6 +18,9 @@ public class HandRanker {
         if (pairCount == 1) {
             return Rank.PAIR;
         }
+        if (pairCount == 2) {
+            return Rank.TWO_PAIRS;
+        }
 
         return Rank.HIGH_CARD;
     }
