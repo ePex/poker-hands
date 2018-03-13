@@ -12,7 +12,7 @@ public class PokerHandEvaluator {
     }
 
     public String evaluate(String firstHand, String secondHand) {
-        // parse strings
+        // parse strings TODO consider refactoring the parsing and validation into a "Hand" object since this is probably easier handling instead of strings or string arrays
         if (inputIsNotValid(firstHand, secondHand)) {
             return "input data is invalid";
         }
