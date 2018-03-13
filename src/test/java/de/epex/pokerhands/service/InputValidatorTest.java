@@ -40,4 +40,6 @@ public class InputValidatorTest {
         assertThat(result, is(false));
     }
 
+    // TODO validate that this list has a size of 52
+
 }
