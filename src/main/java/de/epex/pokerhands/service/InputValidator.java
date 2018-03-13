@@ -6,7 +6,7 @@ import java.util.List;
 
 public class InputValidator {
 
-    private List<String> legalValues = new ArrayList<>();
+    private List<String> deck = new ArrayList<>();
 
     InputValidator() {
         List<String> suites = Arrays.asList("C", "D", "H", "S");
@@ -15,7 +15,7 @@ public class InputValidator {
         //TODO refactor this to a stream operation
         for (String suite : suites) {
             for (String value : values) {
-                legalValues.add(suite + value);
+                deck.add(suite + value);
             }
         }
     }
@@ -37,7 +37,11 @@ public class InputValidator {
     }
 
     private boolean isIllegalValue(String card) {
-        return legalValues.stream().noneMatch(s -> s.equalsIgnoreCase(card));
+        return deck.stream().noneMatch(s -> s.equalsIgnoreCase(card));
+    }
+
+    public List<String> getDeck() {
+        return deck;
     }
 
 }

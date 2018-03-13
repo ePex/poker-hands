@@ -3,6 +3,7 @@ package de.epex.pokerhands.service;
 import org.junit.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 
 public class InputValidatorTest {
@@ -40,6 +41,9 @@ public class InputValidatorTest {
         assertThat(result, is(false));
     }
 
-    // TODO validate that this list has a size of 52
+    @Test
+    public void testDeckSizeIs52() {
+        assertThat(classUnderTest.getDeck().size(), is(equalTo(52)));
+    }
 
 }
