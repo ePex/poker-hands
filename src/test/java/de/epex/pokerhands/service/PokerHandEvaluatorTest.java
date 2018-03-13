@@ -26,4 +26,6 @@ public class PokerHandEvaluatorTest {
         String result = classUnderTest.evaluate(FIRST_INPUT_OK, INPUT_NOT_OK);
         assertThat(result, is("input data is invalid"));
     }
+    
+    // TODO simulate draw with high card - who wins?
 }

@@ -6,15 +6,9 @@ import java.util.stream.Collectors;
 public class HandRanker {
     public Rank getRank(String hand) {
         String[] cards = hand.split("\\s");
-        int highestCard = 2;
-        for (String card : cards) {
-            int value = getValue(card);
-            if (value > highestCard) {
-                highestCard = value;
-            }
-        }
+        List<Integer> values = Arrays.stream(cards).map(this::getValue).collect(Collectors.toList());
 
-        int pairCount = getPairCount(cards);
+        int pairCount = getPairCount(values);
         if (pairCount == 1) {
             return Rank.PAIR;
         }
@@ -25,11 +19,9 @@ public class HandRanker {
         return Rank.HIGH_CARD;
     }
 
-    private int getPairCount(String[] cards) {
-        List<Integer> strings = Arrays.stream(cards).map(this::getValue).collect(Collectors.toList());
-
+    private int getPairCount(List<Integer> cards) {
         Set<Integer> allItems = new HashSet<>();
-        Set<Integer> duplicates = strings.stream()
+        Set<Integer> duplicates = cards.stream()
                 .filter(n -> !allItems.add(n)) //Set.add() returns false if the item was already in the set.
                 .collect(Collectors.toSet());
 
