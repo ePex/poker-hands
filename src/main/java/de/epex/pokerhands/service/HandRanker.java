@@ -8,15 +8,30 @@ public class HandRanker {
         String[] cards = hand.split("\\s");
         List<Integer> values = Arrays.stream(cards).map(this::getValue).collect(Collectors.toList());
 
-        int pairCount = getPairCount(values);
-        if (pairCount == 1) {
-            return Rank.PAIR;
+        if (hasThreeOfAKind(values)) {
+            return Rank.THREE_OF_A_KIND;
         }
+
+        int pairCount = getPairCount(values);
         if (pairCount == 2) {
             return Rank.TWO_PAIRS;
         }
+        if (pairCount == 1) {
+            return Rank.PAIR;
+        }
 
         return Rank.HIGH_CARD;
+    }
+
+    private boolean hasThreeOfAKind(List<Integer> cards) {
+        Set<Integer> uniqueSet = new HashSet<>(cards);
+        for (Integer temp : uniqueSet) {
+            if (Collections.frequency(cards, temp) == 3) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private int getPairCount(List<Integer> cards) {

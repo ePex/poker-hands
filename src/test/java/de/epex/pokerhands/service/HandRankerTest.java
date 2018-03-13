@@ -31,7 +31,8 @@ public class HandRankerTest {
 
     @Test
     public void testGetRankThreeOfAKind() {
-        fail();
+        Rank result = classUnderTest.getRank("H4 S2 HA SA DA");
+        assertThat(result, is(equalTo(Rank.THREE_OF_A_KIND)));
     }
 
     @Test
