@@ -52,7 +52,8 @@ public class HandRankerTest {
 
     @Test
     public void testGetRankFourOfAKind() {
-        fail();
+        Rank result = classUnderTest.getRank("H2 SJ HJ CJ DJ");
+        assertThat(result, is(equalTo(Rank.FOUR_OF_A_KIND)));
     }
 
     @Test
