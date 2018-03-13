@@ -10,14 +10,14 @@ public class HandRanker {
 
         //return Rank.ROYAL_FLUSH;
         //return Rank.STRAIGHT_FLUSH;
-        if (hasFourOfAKind(values)) {
+        if (hasCountOfAKind(values, 4)) {
             return Rank.FOUR_OF_A_KIND;
         }
         //return Rank.FULL_HOUSE;
         //return Rank.FLUSH;
         //return Rank.STRAIGHT;
 
-        if (hasThreeOfAKind(values)) {
+        if (hasCountOfAKind(values, 3)) {
             return Rank.THREE_OF_A_KIND;
         }
 
@@ -32,21 +32,10 @@ public class HandRanker {
         return Rank.HIGH_CARD;
     }
 
-    private boolean hasFourOfAKind(List<Integer> cards) {
+    private boolean hasCountOfAKind(List<Integer> cards, int count) {
         Set<Integer> uniqueSet = new HashSet<>(cards);
         for (Integer temp : uniqueSet) {
-            if (Collections.frequency(cards, temp) == 4) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    private boolean hasThreeOfAKind(List<Integer> cards) {
-        Set<Integer> uniqueSet = new HashSet<>(cards);
-        for (Integer temp : uniqueSet) {
-            if (Collections.frequency(cards, temp) == 3) {
+            if (Collections.frequency(cards, temp) == count) {
                 return true;
             }
         }
