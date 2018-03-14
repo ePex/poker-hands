@@ -23,4 +23,20 @@ public class HandTest {
         assertThat(result.getCards().get(4).getValue(), is(equalTo(7)));
     }
 
+    @Test
+    public void testToString() {
+        Hand result = new Hand("C5 D3 D4 S7 C6");
+        assertThat(result.toString(), is(equalTo("D3 D4 C5 C6 S7 ")));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testHandToShort() {
+        new Hand("C5 D3 D4 S7");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testHandToBig() {
+        new Hand("C5 D3 D4 S7");
+    }
+
 }

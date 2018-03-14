@@ -1,5 +1,7 @@
 package de.epex.pokerhands.service.model;
 
+import com.sun.javaws.exceptions.InvalidArgumentException;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -12,7 +14,11 @@ public class Hand {
 
     public Hand(String handString) {
         String[] split = handString.split("\\s");
-        // check size
+
+        if (invalidSize(split.length)) {
+            throw new IllegalArgumentException("Hand is either to small or big (must contain " + SIZE + " cards)");
+        }
+
         for (String s : split) {
             cards.add(new Card(s));
         }
@@ -29,12 +35,16 @@ public class Hand {
         return result.toString();
     }
 
-    private void sort() {
-        cards.sort(Comparator.comparingInt(Card::getValue));
-    }
-
     public List<Card> getCards() {
         return cards;
+    }
+
+    private boolean invalidSize(int size) {
+        return size < SIZE || size > SIZE;
+    }
+
+    private void sort() {
+        cards.sort(Comparator.comparingInt(Card::getValue));
     }
 
 }
