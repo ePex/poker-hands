@@ -7,6 +7,7 @@ public class Card {
     private final int value;
 
     public Card(String cardString) {
+        // TODO handle errors / wrong values
         suite = getSuiteFromCardString(cardString);
         value = getValueFromCardString(cardString);
     }
@@ -24,9 +25,9 @@ public class Card {
             case "Q":
                 return 11;
             case "K":
-                return  12;
+                return 12;
             case "A":
-                return  13;
+                return 13;
             default:
                 return Integer.valueOf(stringValue);
         }
