@@ -13,7 +13,10 @@ public class HandRanker {
         if (hasCountOfAKind(values, 4)) {
             return Rank.FOUR_OF_A_KIND;
         }
-        //return Rank.FULL_HOUSE;
+
+        if (hasCountOfAKind(values,2) && hasCountOfAKind(values,3)) {
+            return Rank.FULL_HOUSE;
+        }
         //return Rank.FLUSH;
         //return Rank.STRAIGHT;
 

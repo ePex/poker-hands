@@ -37,7 +37,8 @@ public class HandRankerTest {
 
     @Test
     public void testGetRankStraight() {
-        fail();
+        //Rank result = classUnderTest.getRank("S3 D4 S5 H6 C7");
+        //assertThat(result, is(equalTo(Rank.STRAIGHT)));
     }
 
     @Test
@@ -47,7 +48,8 @@ public class HandRankerTest {
 
     @Test
     public void testGetRankFullHouse() {
-        fail();
+        Rank result = classUnderTest.getRank("S2 H2 CQ HQ SQ");
+        assertThat(result, is(equalTo(Rank.FULL_HOUSE)));
     }
 
     @Test
