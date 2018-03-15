@@ -2,7 +2,9 @@ package de.epex.pokerhands.service;
 
 import de.epex.pokerhands.service.model.Hand;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class Evaluator {
 
     private final Ranker ranker;

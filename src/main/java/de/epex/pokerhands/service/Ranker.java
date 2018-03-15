@@ -2,10 +2,12 @@ package de.epex.pokerhands.service;
 
 import de.epex.pokerhands.service.model.Card;
 import de.epex.pokerhands.service.model.Hand;
+import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Service
 public class Ranker {
     public Rank getRank(Hand hand) {
 
