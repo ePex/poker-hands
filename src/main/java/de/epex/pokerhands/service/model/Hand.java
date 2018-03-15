@@ -3,6 +3,7 @@ package de.epex.pokerhands.service.model;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Hand {
 
@@ -25,12 +26,8 @@ public class Hand {
 
     @Override
     public String toString() {
-        StringBuilder result = new StringBuilder();
-        for (Card card : cards) {
-            result.append(card).append(" ");
-        }
-
-        return result.toString();
+        return cards.stream()
+                .map(card -> card + " ").collect(Collectors.joining());
     }
 
     public List<Card> getCards() {
