@@ -11,9 +11,7 @@ public class PokerHandEvaluatorTest {
     private final static String SECOND_INPUT_OK = "DA D3 D5 H8 S8";
     private final static String INPUT_NOT_OK = "S2 C7 HA D1 S9";
 
-    private final InputValidator inputValidator = new InputValidator();
-
-    private final PokerHandEvaluator classUnderTest = new PokerHandEvaluator(inputValidator);
+    private final PokerHandEvaluator classUnderTest = new PokerHandEvaluator();
 
     @Test
     public void testEvaluateFirstHandWinsWithStraight() {

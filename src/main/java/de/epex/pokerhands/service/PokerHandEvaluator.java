@@ -1,19 +1,14 @@
 package de.epex.pokerhands.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import de.epex.pokerhands.service.model.Hand;
 
 public class PokerHandEvaluator {
 
-    private final InputValidator inputValidator;
-
-    @Autowired
-    public PokerHandEvaluator(InputValidator inputValidator) {
-        this.inputValidator = inputValidator;
-    }
-
     public String evaluate(String firstHand, String secondHand) {
-        // parse strings TODO consider refactoring the parsing and validation into a "Hand" object since this is probably easier handling instead of strings or string arrays
-        if (inputIsNotValid(firstHand, secondHand)) {
+        try {
+            Hand hand1 = new Hand(firstHand);
+            Hand hand2 = new Hand(secondHand);
+        } catch (IllegalArgumentException e) {
             return "input data is invalid";
         }
 
@@ -26,10 +21,6 @@ public class PokerHandEvaluator {
         // return result
 
         return "first";
-    }
-
-    private boolean inputIsNotValid(String firstHand, String secondHand) {
-        return !inputValidator.validate(firstHand) || !inputValidator.validate(secondHand);
     }
 
 }
