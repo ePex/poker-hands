@@ -71,7 +71,11 @@ public class RankerTest {
         assertThat(result, is(equalTo(Rank.STRAIGHT_FLUSH)));
     }
 
-    // royal flush?
+    @Test
+    public void testGetRankRoyalFlush() {
+        Rank result = classUnderTest.getRank(new Hand("H10 HJ HQ HK HA"));
+        assertThat(result, is(equalTo(Rank.ROYAL_FLUSH)));
+    }
 
-    // kicker?
+    // TODO: kicker?
 }

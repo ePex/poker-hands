@@ -8,7 +8,7 @@ public class Card {
 
     private final int value;
 
-    Card(String cardString) {
+    public Card(String cardString) {
         this(cardString, true);
     }
 

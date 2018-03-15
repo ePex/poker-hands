@@ -14,9 +14,11 @@ import java.util.stream.Collectors;
 public class Ranker {
     public Rank getRank(Hand hand) {
 
-        //return Rank.ROYAL_FLUSH;
-
         if (isStraight(hand) && isFlush(hand)) {
+            List<Card> cards = hand.getCards();
+            if (new Card("DA").getValue() == cards.get(cards.size() - 1).getValue()) {
+                return Rank.ROYAL_FLUSH;
+            }
             return Rank.STRAIGHT_FLUSH;
         }
 
