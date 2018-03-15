@@ -11,12 +11,12 @@ public class PokerHandEvaluatorTest {
     private final static String SECOND_INPUT_OK = "DA D3 D5 H8 S8";
     private final static String INPUT_NOT_OK = "S2 C7 HA D1 S9";
 
-    private final PokerHandEvaluator classUnderTest = new PokerHandEvaluator();
+    private final PokerHandEvaluator classUnderTest = new PokerHandEvaluator(new HandRanker());
 
     @Test
     public void testEvaluateFirstHandWinsWithStraight() {
         String result = classUnderTest.evaluate(FIRST_INPUT_OK, SECOND_INPUT_OK);
-        assertThat(result, is("first"));
+        assertThat(result, is("First hand wins! (Straight)"));
     }
 
     @Test
