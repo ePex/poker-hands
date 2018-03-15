@@ -3,7 +3,6 @@ package de.epex.pokerhands.service;
 import de.epex.pokerhands.service.model.Hand;
 import org.junit.Test;
 
-import static junit.framework.TestCase.fail;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
@@ -42,7 +41,11 @@ public class RankerTest {
         assertThat(result, is(equalTo(Rank.STRAIGHT)));
     }
 
-    // TODO add more straight tests ... just to be sure this magic works
+    @Test
+    public void testGetRankStraightWithSymbols() {
+        Rank result = classUnderTest.getRank(new Hand("S8 D9 S10 HJ CQ"));
+        assertThat(result, is(equalTo(Rank.STRAIGHT)));
+    }
 
     @Test
     public void testGetRankFlush() {
