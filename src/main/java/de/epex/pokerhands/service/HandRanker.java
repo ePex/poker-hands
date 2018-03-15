@@ -10,7 +10,11 @@ public class HandRanker {
     public Rank getRank(Hand hand) {
 
         //return Rank.ROYAL_FLUSH;
-        //return Rank.STRAIGHT_FLUSH;
+
+        if (isStraight(hand) && isFlush(hand)) {
+            return Rank.STRAIGHT_FLUSH;
+        }
+
         if (hasCountOfAKind(hand, 4)) {
             return Rank.FOUR_OF_A_KIND;
         }

@@ -64,7 +64,8 @@ public class HandRankerTest {
 
     @Test
     public void testGetRankStraightFlush() {
-        fail();
+        Rank result = classUnderTest.getRank(new Hand("S3 S4 S5 S6 S7"));
+        assertThat(result, is(equalTo(Rank.STRAIGHT_FLUSH)));
     }
 
     // royal flush?
