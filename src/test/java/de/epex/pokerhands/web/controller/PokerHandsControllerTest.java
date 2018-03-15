@@ -1,11 +1,13 @@
 package de.epex.pokerhands.web.controller;
 
+import de.epex.pokerhands.service.Evaluator;
 import de.epex.pokerhands.web.dto.CompareHandsDto;
 import de.epex.pokerhands.web.dto.ComparisonResultDto;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -22,6 +24,9 @@ public class PokerHandsControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @MockBean
+    private Evaluator evaluator;
 
     @Test
     public void testDisplayForm() throws Exception {
