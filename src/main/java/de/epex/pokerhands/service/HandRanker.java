@@ -63,15 +63,17 @@ public class HandRanker {
     private boolean isStraight(Hand hand) {
         List<Card> cards = hand.getCards();
         Card previousCard = null;
+        int count = 0;
         for (Card card : cards) {
-            if (previousCard == null || previousCard.getValue() < card.getValue()) {
+            if (previousCard == null || (previousCard.getValue() == card.getValue() - 1)) {
                 previousCard = card;
+                count++;
             } else {
                 return false;
             }
         }
 
-        return true;
+        return count == 5;
     }
 
     private boolean hasCountOfAKind(Hand hand, int count) {
