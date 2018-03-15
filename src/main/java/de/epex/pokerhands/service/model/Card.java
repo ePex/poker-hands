@@ -1,17 +1,18 @@
 package de.epex.pokerhands.service.model;
 
+import java.util.Objects;
+
 public class Card {
 
     private final String suite;
 
     private final int value;
 
-    public Card(String cardString) {
+    Card(String cardString) {
         this(cardString, true);
     }
 
-    public Card(String cardString, boolean validate) {
-        // TODO handle errors / wrong values
+    Card(String cardString, boolean validate) {
         suite = getSuiteFromCardString(cardString);
         value = getValueFromCardString(cardString);
         if (validate && !Deck.isInDeck(this)) {
@@ -45,6 +46,20 @@ public class Card {
     @Override
     public String toString() {
         return String.format("%s%s", suite, value);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Card card = (Card) o;
+        return value == card.value &&
+                Objects.equals(suite, card.suite);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(suite, value);
     }
 
     public String getSuite() {

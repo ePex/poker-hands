@@ -4,13 +4,22 @@ import org.junit.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
+
 
 public class HandTest {
 
     @Test
     public void testHandParsing() {
-
+        Hand result = new Hand("C5 D3 D4 S7 C6");
+        assertThat(result.getCards(), hasSize(5));
+        assertThat(result.getCards(), hasItem(new Card("C5")));
+        assertThat(result.getCards(), hasItem(new Card("D3")));
+        assertThat(result.getCards(), hasItem(new Card("D4")));
+        assertThat(result.getCards(), hasItem(new Card("S7")));
+        assertThat(result.getCards(), hasItem(new Card("C6")));
     }
 
     @Test

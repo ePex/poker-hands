@@ -51,6 +51,13 @@ public class CardTest {
         assertThat(result.toString(), is(equalTo("S5")));
     }
 
+    @Test
+    public void testEquals() {
+        Card result = new Card("S5");
+        Card secondHard = new Card("S5");
+        assertThat(result, is(equalTo(secondHard)));
+    }
+
     @Test(expected = IllegalArgumentException.class)
     public void testCardNotInDeck() {
         new Card("S1");
