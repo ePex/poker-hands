@@ -22,7 +22,7 @@ public class EvaluatorTest {
     @Test
     public void testEvaluateWithInvalidInputData() {
         String result = classUnderTest.evaluate(FIRST_INPUT_OK, INPUT_NOT_OK);
-        assertThat(result, is("input data is invalid"));
+        assertThat(result, is("Input data is invalid"));
     }
 
     // TODO simulate draw with high card - who wins?

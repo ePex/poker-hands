@@ -26,7 +26,7 @@ public class Evaluator {
                     ? String.format("First hand wins! (%s)", rankFirstHand.getName())
                     : String.format("Second hand wins! (%s)", rankSecondHand.getName());
         } catch (IllegalArgumentException e) {
-            return "input data is invalid";
+            return "Input data is invalid";
         }
     }
 
