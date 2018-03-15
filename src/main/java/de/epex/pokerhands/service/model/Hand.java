@@ -11,14 +11,14 @@ public class Hand {
     private List<Card> cards = new ArrayList<>();
 
     public Hand(String handString) {
-        String[] split = handString.split("\\s");
+        String[] cardsAsStrings = handString.split("\\s");
 
-        if (invalidSize(split.length)) {
+        if (invalidSize(cardsAsStrings.length)) {
             throw new IllegalArgumentException(String.format("Hand is either to small or big (must contain %d cards)", SIZE));
         }
 
-        for (String s : split) {
-            cards.add(new Card(s));
+        for (String cardString : cardsAsStrings) {
+            cards.add(new Card(cardString));
         }
         sort();
     }
