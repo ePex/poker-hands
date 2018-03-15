@@ -22,7 +22,8 @@ public class Evaluator {
             Rank rankFirstHand = ranker.getRank(firstHand);
             Rank rankSecondHand = ranker.getRank(secondHand);
 
-            return rankFirstHand.getValue() > rankSecondHand.getValue()
+            return rankFirstHand.equals(rankSecondHand) ? "It's a draw!" :
+                    rankFirstHand.getValue() > rankSecondHand.getValue()
                     ? String.format("First hand wins! (%s)", rankFirstHand.getName())
                     : String.format("Second hand wins! (%s)", rankSecondHand.getName());
         } catch (IllegalArgumentException e) {

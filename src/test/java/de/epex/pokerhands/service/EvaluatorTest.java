@@ -25,5 +25,11 @@ public class EvaluatorTest {
         assertThat(result, is("Input data is invalid"));
     }
 
-    // TODO implement draw - must rate hands on a 'second level'
+    @Test
+    public void testEvaluateDraw() {
+        String result = classUnderTest.evaluate("S4 D7 S9 HJ CA", "S3 H7 D9 DJ CK");
+        assertThat(result, is("It's a draw!"));
+    }
+
+    // TODO: implement comparator for handling draw situations
 }
