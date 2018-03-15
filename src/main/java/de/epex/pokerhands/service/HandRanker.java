@@ -1,30 +1,31 @@
 package de.epex.pokerhands.service;
 
+import de.epex.pokerhands.service.model.Card;
+import de.epex.pokerhands.service.model.Hand;
+
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class HandRanker {
-    public Rank getRank(String hand) {
-        String[] cards = hand.split("\\s");
-        List<Integer> values = Arrays.stream(cards).map(this::getValue).collect(Collectors.toList());
+    public Rank getRank(Hand hand) {
 
         //return Rank.ROYAL_FLUSH;
         //return Rank.STRAIGHT_FLUSH;
-        if (hasCountOfAKind(values, 4)) {
+        if (hasCountOfAKind(hand, 4)) {
             return Rank.FOUR_OF_A_KIND;
         }
 
-        if (hasCountOfAKind(values,2) && hasCountOfAKind(values,3)) {
+        if (hasCountOfAKind(hand,2) && hasCountOfAKind(hand,3)) {
             return Rank.FULL_HOUSE;
         }
         //return Rank.FLUSH;
         //return Rank.STRAIGHT;
 
-        if (hasCountOfAKind(values, 3)) {
+        if (hasCountOfAKind(hand, 3)) {
             return Rank.THREE_OF_A_KIND;
         }
 
-        int pairCount = getPairCount(values);
+        int pairCount = getPairCount(hand);
         if (pairCount == 2) {
             return Rank.TWO_PAIRS;
         }
@@ -35,7 +36,8 @@ public class HandRanker {
         return Rank.HIGH_CARD;
     }
 
-    private boolean hasCountOfAKind(List<Integer> cards, int count) {
+    private boolean hasCountOfAKind(Hand hand, int count) {
+        List<Integer> cards = hand.getCards().stream().map(Card::getValue).collect(Collectors.toList());
         Set<Integer> uniqueSet = new HashSet<>(cards);
         for (Integer temp : uniqueSet) {
             if (Collections.frequency(cards, temp) == count) {
@@ -46,7 +48,8 @@ public class HandRanker {
         return false;
     }
 
-    private int getPairCount(List<Integer> cards) {
+    private int getPairCount(Hand hand) {
+        List<Integer> cards = hand.getCards().stream().map(Card::getValue).collect(Collectors.toList());
         Set<Integer> allItems = new HashSet<>();
         Set<Integer> duplicates = cards.stream()
                 .filter(n -> !allItems.add(n)) //Set.add() returns false if the item was already in the set.
@@ -55,28 +58,4 @@ public class HandRanker {
         return duplicates.size();
     }
 
-    private int getValue(String card) {
-        int value;
-        String stringValue = card.substring(1).toUpperCase();
-
-        switch (stringValue) {
-            case "J":
-                value = 11;
-                break;
-            case "Q":
-                value = 12;
-                break;
-            case "K":
-                value = 13;
-                break;
-            case "A":
-                value = 14;
-                break;
-            default:
-                value = Integer.valueOf(stringValue);
-                break;
-        }
-
-        return value;
-    }
 }
