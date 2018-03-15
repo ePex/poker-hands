@@ -22,6 +22,7 @@ java -jar target/poker-hands-0.0.1-SNAPSHOT.jar
 
 # Todo
 
-* Define interface(s) and implement service(s) 
+* Implement evaluation / ranking on a draw (both hands have high card or straight and so on...) 
 * Separate header and footer into fragments, so that the google material ui css and js are only defined once
-* Store google material ui, js and jQuery locally within the application so no more internet connection is required  
+* Store google material ui, js and jQuery locally within the application so no more internet connection is required
+* Dockerize application  

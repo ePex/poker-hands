@@ -25,5 +25,5 @@ public class EvaluatorTest {
         assertThat(result, is("Input data is invalid"));
     }
 
-    // TODO simulate draw with high card - who wins?
+    // TODO implement draw - must rate hands on a 'second level'
 }
