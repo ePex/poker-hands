@@ -12,45 +12,57 @@ import java.util.stream.Collectors;
 
 @Service
 public class Ranker {
-    public Rank getRank(Hand hand) {
 
-        if (isStraight(hand) && isFlush(hand)) {
-            List<Card> cards = hand.getCards();
-            if (new Card("DA").getValue() == cards.get(cards.size() - 1).getValue()) {
-                return Rank.ROYAL_FLUSH;
-            }
+    public Rank getRank(Hand hand) {
+        if (isRoyalFlush(hand)) {
+            return Rank.ROYAL_FLUSH;
+        }
+        if (isStraightFlush(hand)) {
             return Rank.STRAIGHT_FLUSH;
         }
-
-        if (hasCountOfAKind(hand, 4)) {
+        if (isFourOfAKind(hand)) {
             return Rank.FOUR_OF_A_KIND;
         }
-
-        if (hasCountOfAKind(hand,2) && hasCountOfAKind(hand,3)) {
+        if (isFullHouse(hand)) {
             return Rank.FULL_HOUSE;
         }
-
         if (isFlush(hand)) {
             return Rank.FLUSH;
         }
-
         if (isStraight(hand)) {
             return Rank.STRAIGHT;
         }
-
-        if (hasCountOfAKind(hand, 3)) {
+        if (isThreeOfAKind(hand)) {
             return Rank.THREE_OF_A_KIND;
         }
-
-        int pairCount = getPairCount(hand);
-        if (pairCount == 2) {
+        if (isTwoPair(hand)) {
             return Rank.TWO_PAIRS;
         }
-        if (pairCount == 1) {
+        if (isPair(hand)) {
             return Rank.PAIR;
         }
 
         return Rank.HIGH_CARD;
+    }
+
+    private boolean isRoyalFlush(Hand hand) {
+        List<Card> cards = hand.getCards();
+        Card referenceCard = new Card("DA");
+        Card highestCardFromHand = cards.get(cards.size() - 1);
+
+        return isStraightFlush(hand) && referenceCard.getValue() == highestCardFromHand.getValue();
+    }
+
+    private boolean isStraightFlush(Hand hand) {
+        return isStraight(hand) && isFlush(hand);
+    }
+
+    private boolean isFourOfAKind(Hand hand) {
+        return hasCountOfAKind(hand, 4);
+    }
+
+    private boolean isFullHouse(Hand hand) {
+        return hasCountOfAKind(hand,2) && hasCountOfAKind(hand,3);
     }
 
     private boolean isFlush(Hand hand) {
@@ -83,16 +95,23 @@ public class Ranker {
         return count == 5;
     }
 
+    private boolean isThreeOfAKind(Hand hand) {
+        return hasCountOfAKind(hand, 3);
+    }
+
     private boolean hasCountOfAKind(Hand hand, int count) {
         List<Integer> cards = hand.getCards().stream().map(Card::getValue).collect(Collectors.toList());
         Set<Integer> uniqueSet = new HashSet<>(cards);
-        for (Integer temp : uniqueSet) {
-            if (Collections.frequency(cards, temp) == count) {
-                return true;
-            }
-        }
 
-        return false;
+        return uniqueSet.stream().anyMatch(temp -> Collections.frequency(cards, temp) == count);
+    }
+
+    private boolean isTwoPair(Hand hand) {
+        return getPairCount(hand) == 2;
+    }
+
+    private boolean isPair(Hand hand) {
+        return getPairCount(hand) == 1;
     }
 
     private int getPairCount(Hand hand) {
