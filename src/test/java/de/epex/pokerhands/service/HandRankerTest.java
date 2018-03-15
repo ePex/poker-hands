@@ -42,9 +42,12 @@ public class HandRankerTest {
         assertThat(result, is(equalTo(Rank.STRAIGHT)));
     }
 
+    // TODO add more straight tests ... just to be sure this magic works
+
     @Test
     public void testGetRankFlush() {
-        fail();
+        Rank result = classUnderTest.getRank(new Hand("D3 D6 D9 DQ DK"));
+        assertThat(result, is(equalTo(Rank.FLUSH)));
     }
 
     @Test

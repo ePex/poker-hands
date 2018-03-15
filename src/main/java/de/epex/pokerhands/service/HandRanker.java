@@ -18,8 +18,14 @@ public class HandRanker {
         if (hasCountOfAKind(hand,2) && hasCountOfAKind(hand,3)) {
             return Rank.FULL_HOUSE;
         }
-        //return Rank.FLUSH;
-        //return Rank.STRAIGHT;
+
+        if (isFlush(hand)) {
+            return Rank.FLUSH;
+        }
+
+        if (isStraight(hand)) {
+            return Rank.STRAIGHT;
+        }
 
         if (hasCountOfAKind(hand, 3)) {
             return Rank.THREE_OF_A_KIND;
@@ -34,6 +40,34 @@ public class HandRanker {
         }
 
         return Rank.HIGH_CARD;
+    }
+
+    private boolean isFlush(Hand hand) {
+        List<Card> cards = hand.getCards();
+        String suite = null;
+        for (Card card : cards) {
+            if (suite == null || suite.equalsIgnoreCase(card.getSuite())) {
+                suite = card.getSuite();
+            } else {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private boolean isStraight(Hand hand) {
+        List<Card> cards = hand.getCards();
+        Card previousCard = null;
+        for (Card card : cards) {
+            if (previousCard == null || previousCard.getValue() < card.getValue()) {
+                previousCard = card;
+            } else {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     private boolean hasCountOfAKind(Hand hand, int count) {
