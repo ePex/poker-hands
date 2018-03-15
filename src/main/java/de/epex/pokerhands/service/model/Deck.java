@@ -6,25 +6,25 @@ import java.util.List;
 
 public class Deck {
 
-    private List<Card> cards = new ArrayList<>();
+    private static final List<Card> cards = new ArrayList<>();
 
-    public Deck() {
+    static {
         List<String> suites = Arrays.asList("C", "D", "H", "S");
         List<String> values = Arrays.asList("2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K", "A");
 
         //TODO refactor this to a stream operation
         for (String suite : suites) {
             for (String value : values) {
-                cards.add(new Card(suite + value));
+                cards.add(new Card(suite + value, false));
             }
         }
     }
 
-    public boolean isInDeck(Card card) {
+    public static boolean isInDeck(Card card) {
         return cards.stream().anyMatch(deckCard -> deckCard.toString().equalsIgnoreCase(card.toString()));
     }
 
-    public int getDeckSize() {
+    public static int getDeckSize() {
         return cards.size();
     }
 }

@@ -7,9 +7,16 @@ public class Card {
     private final int value;
 
     public Card(String cardString) {
+        this(cardString, true);
+    }
+
+    public Card(String cardString, boolean validate) {
         // TODO handle errors / wrong values
         suite = getSuiteFromCardString(cardString);
         value = getValueFromCardString(cardString);
+        if (validate && !Deck.isInDeck(this)) {
+            throw new IllegalArgumentException(String.format("Card(%s) is not in deck", toString()));
+        }
     }
 
     private String getSuiteFromCardString(String card) {
@@ -20,14 +27,16 @@ public class Card {
         String stringValue = card.substring(1).toUpperCase();
 
         switch (stringValue) {
-            case "J":
+            case "T":
                 return 10;
-            case "Q":
+            case "J":
                 return 11;
-            case "K":
+            case "Q":
                 return 12;
-            case "A":
+            case "K":
                 return 13;
+            case "A":
+                return 14;
             default:
                 return Integer.valueOf(stringValue);
         }
