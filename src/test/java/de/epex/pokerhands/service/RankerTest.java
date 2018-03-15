@@ -8,9 +8,9 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 
-public class HandRankerTest {
+public class RankerTest {
 
-    private final HandRanker classUnderTest = new HandRanker();
+    private final Ranker classUnderTest = new Ranker();
 
     @Test
     public void testGetRankHighCard() {

@@ -3,13 +3,13 @@ package de.epex.pokerhands.service;
 import de.epex.pokerhands.service.model.Hand;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class PokerHandEvaluator {
+public class Evaluator {
 
-    private final HandRanker handRanker;
+    private final Ranker ranker;
 
     @Autowired
-    public PokerHandEvaluator(HandRanker handRanker) {
-        this.handRanker = handRanker;
+    public Evaluator(Ranker ranker) {
+        this.ranker = ranker;
     }
 
     public String evaluate(String firstHandString, String secondHandString) {
@@ -17,8 +17,8 @@ public class PokerHandEvaluator {
             Hand firstHand = new Hand(firstHandString);
             Hand secondHand = new Hand(secondHandString);
 
-            Rank rankFirstHand = handRanker.getRank(firstHand);
-            Rank rankSecondHand = handRanker.getRank(secondHand);
+            Rank rankFirstHand = ranker.getRank(firstHand);
+            Rank rankSecondHand = ranker.getRank(secondHand);
 
             return rankFirstHand.getValue() > rankSecondHand.getValue()
                     ? String.format("First hand wins! (%s)", rankFirstHand.getName())

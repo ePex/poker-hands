@@ -6,7 +6,7 @@ import de.epex.pokerhands.service.model.Hand;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class HandRanker {
+public class Ranker {
     public Rank getRank(Hand hand) {
 
         //return Rank.ROYAL_FLUSH;
