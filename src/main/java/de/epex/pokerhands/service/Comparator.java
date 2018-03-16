@@ -33,8 +33,6 @@ public class Comparator {
             valueFirstHand = firstHandPairs.stream().mapToInt(Integer::intValue).sum();
             valueSecondHand = secondHandPairs.stream().mapToInt(Integer::intValue).sum();
 
-            //if equal -> compare remaining by excluding pair and looping backwards from highest value*/
-
             if (valueFirstHand == valueSecondHand) {
                 // high card draw
                 int index = 5;

@@ -52,10 +52,15 @@ public class ComparatorTest {
         assertThat(result, is(equalTo(firstHand)));
     }
 
+    @Test
+    public void testComparePairDrawHighCard() {
+        Hand firstHand = new Hand("S3 C6 S7 H2 D2");
+        Hand secondHand = new Hand("S2 H2 D9 DJ C10");
 
+        Hand result = classUnderTest.compare(firstHand, secondHand);
 
-
-
+        assertThat(result, is(equalTo(secondHand)));
+    }
 
     @Test
     public void testCompareTwoPairDraw() {
@@ -65,6 +70,16 @@ public class ComparatorTest {
         Hand result = classUnderTest.compare(firstHand, secondHand);
 
         assertThat(result, is(equalTo(firstHand)));
+    }
+
+    @Test
+    public void testCompareTwoPairDrawHighCard() {
+        Hand firstHand = new Hand("S3 C3 S7 H2 D2");
+        Hand secondHand = new Hand("S2 H2 D9 D10 C10");
+
+        Hand result = classUnderTest.compare(firstHand, secondHand);
+
+        assertThat(result, is(equalTo(secondHand)));
     }
 
 
