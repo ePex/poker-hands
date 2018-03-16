@@ -52,14 +52,15 @@ public class ComparatorTest {
         assertThat(result, is(equalTo(firstHand)));
     }
 
+
+
+
+
+
     @Test
     public void testCompareTwoPairDraw() {
         Hand firstHand = new Hand("S4 D8 H8 CJ SJ");
-
-
-
-
-        Hand secondHand = new Hand("S3 H7 D9 DJ CK");
+        Hand secondHand = new Hand("S3 H3 D9 DK CK");
 
         Hand result = classUnderTest.compare(firstHand, secondHand);
 

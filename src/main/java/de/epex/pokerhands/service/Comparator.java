@@ -1,7 +1,11 @@
 package de.epex.pokerhands.service;
 
+import de.epex.pokerhands.service.model.Card;
 import de.epex.pokerhands.service.model.Hand;
 import org.springframework.stereotype.Service;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Service
 public class Comparator {
@@ -23,21 +27,24 @@ public class Comparator {
         int valueSecondHand = ranker.getRank(secondHand).getValue();
 
         if (valueFirstHand == valueSecondHand) {
-            /* pair draw
-            firstHand.getCards().getPair()
-            secondHand.getCards().getPair()
-            compare each pair
-            if equal -> compare remaining by excluding pair and looping backwards from highest value*/
+            //pair draw
+            Set<Integer> firstHandPairs = firstHand.getPairs();
+            Set<Integer> secondHandPairs = secondHand.getPairs();
+            valueFirstHand = firstHandPairs.stream().mapToInt(Integer::intValue).sum();
+            valueSecondHand = secondHandPairs.stream().mapToInt(Integer::intValue).sum();
 
+            //if equal -> compare remaining by excluding pair and looping backwards from highest value*/
 
-            // high card draw
-            int index = 5;
-            while (index > 0) {
-                index--;
-                valueFirstHand = firstHand.getCards().get(index).getValue();
-                valueSecondHand = secondHand.getCards().get(index).getValue();
-                if (firstHand.getCards().get(index).getValue() != secondHand.getCards().get(index).getValue()) {
-                    break;
+            if (valueFirstHand == valueSecondHand) {
+                // high card draw
+                int index = 5;
+                while (index > 0) {
+                    index--;
+                    valueFirstHand = firstHand.getCards().get(index).getValue();
+                    valueSecondHand = secondHand.getCards().get(index).getValue();
+                    if (firstHand.getCards().get(index).getValue() != secondHand.getCards().get(index).getValue()) {
+                        break;
+                    }
                 }
             }
         }
