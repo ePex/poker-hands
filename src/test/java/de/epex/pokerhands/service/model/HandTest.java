@@ -2,6 +2,8 @@ package de.epex.pokerhands.service.model;
 
 import org.junit.Test;
 
+import java.util.Set;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItem;
@@ -46,6 +48,27 @@ public class HandTest {
     @Test(expected = IllegalArgumentException.class)
     public void testHandToBig() {
         new Hand("C5 D3 D4 S7");
+    }
+
+    @Test
+    public void testGetPairsNoPair() {
+        Hand hand = new Hand("S3 C6 S7 HQ DK");
+        Set<Integer> result = hand.getPairs();
+        assertThat(result, hasSize(0));
+    }
+
+    @Test
+    public void testGetPairsOnePair() {
+        Hand hand = new Hand("S3 C6 S7 HQ DQ");
+        Set<Integer> result = hand.getPairs();
+        assertThat(result, hasSize(1));
+    }
+
+    @Test
+    public void testGetPairsTwoPair() {
+        Hand hand = new Hand("S6 C6 S7 HQ DQ");
+        Set<Integer> result = hand.getPairs();
+        assertThat(result, hasSize(2));
     }
 
 }

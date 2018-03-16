@@ -115,13 +115,9 @@ public class Ranker {
     }
 
     private int getPairCount(Hand hand) {
-        List<Integer> cards = hand.getCards().stream().map(Card::getValue).collect(Collectors.toList());
-        Set<Integer> allItems = new HashSet<>();
-        Set<Integer> duplicates = cards.stream()
-                .filter(n -> !allItems.add(n)) //Set.add() returns false if the item was already in the set.
-                .collect(Collectors.toSet());
+        Set<Integer> pairs = hand.getPairs();
 
-        return duplicates.size();
+        return pairs.size();
     }
 
 }
