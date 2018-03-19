@@ -23,7 +23,7 @@ public class ComparatorTest {
     }
 
     @Test
-    public void testCompareHighCardDraw() {
+    public void testCompareHighCardDrawNextHighestCardWins() {
         Hand firstHand = new Hand("S4 D7 S9 HJ CA");
         Hand secondHand = new Hand("S3 H7 D9 DJ CK");
 
@@ -43,7 +43,7 @@ public class ComparatorTest {
     }
 
     @Test
-    public void testComparePairDraw() {
+    public void testComparePairDrawHigherPairWins() {
         Hand firstHand = new Hand("S3 C6 S7 HQ DQ");
         Hand secondHand = new Hand("S4 H4 D9 DJ CK");
 
@@ -53,8 +53,8 @@ public class ComparatorTest {
     }
 
     @Test
-    public void testComparePairDrawHighCard() {
-        Hand firstHand = new Hand("S3 C6 S7 H2 D2");
+    public void testComparePairDrawNextHighestCard() {
+        Hand firstHand = new Hand("S3 C6 S7 C2 D2");
         Hand secondHand = new Hand("S2 H2 D9 DJ C10");
 
         Hand result = classUnderTest.compare(firstHand, secondHand);
@@ -63,9 +63,29 @@ public class ComparatorTest {
     }
 
     @Test
-    public void testCompareTwoPairDraw() {
+    public void testComparePairDrawRealDraw() {
+        Hand firstHand = new Hand("S3 C6 S7 C2 D2");
+        Hand secondHand = new Hand("S2 H2 D7 D6 C3");
+
+        Hand result = classUnderTest.compare(firstHand, secondHand);
+
+        assertThat(result, nullValue());
+    }
+
+    @Test
+    public void testCompareTwoPairDrawHighestPairWins() {
         Hand firstHand = new Hand("S4 D8 H8 CJ SJ");
         Hand secondHand = new Hand("S3 H3 D9 DK CK");
+
+        Hand result = classUnderTest.compare(firstHand, secondHand);
+
+        assertThat(result, is(equalTo(secondHand)));
+    }
+
+    @Test
+    public void testCompareTwoPairDrawSecondHighestPairWins() {
+        Hand firstHand = new Hand("S4 D8 H8 CJ SJ");
+        Hand secondHand = new Hand("S3 H3 D9 DJ HJ");
 
         Hand result = classUnderTest.compare(firstHand, secondHand);
 
@@ -73,7 +93,7 @@ public class ComparatorTest {
     }
 
     @Test
-    public void testCompareTwoPairDrawHighCard() {
+    public void testCompareTwoPairDrawRemainingHighestCardWins() {
         Hand firstHand = new Hand("S3 C3 S7 H2 D2");
         Hand secondHand = new Hand("S2 H2 D9 D10 C10");
 
