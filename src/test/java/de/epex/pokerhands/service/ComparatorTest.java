@@ -114,8 +114,18 @@ public class ComparatorTest {
 
     @Test
     public void testCompareThreeOfAKindDraw() {
-        Hand firstHand = new Hand("S3 C3 S7 H2 D2");
-        Hand secondHand = new Hand("S2 H2 D9 D10 C10");
+        Hand firstHand = new Hand("S3 C3 H3 S7 D6");
+        Hand secondHand = new Hand("S4 C4 H4 S8 D7");
+
+        Hand result = classUnderTest.compare(firstHand, secondHand);
+
+        assertThat(result, is(equalTo(secondHand)));
+    }
+
+    @Test
+    public void testCompareStraightDraw() {
+        Hand firstHand = new Hand("S3 C4 H5 S6 D7");
+        Hand secondHand = new Hand("D5 C6 H7 S8 D9");
 
         Hand result = classUnderTest.compare(firstHand, secondHand);
 
