@@ -132,4 +132,14 @@ public class ComparatorTest {
         assertThat(result, is(equalTo(secondHand)));
     }
 
+    @Test
+    public void testCompareFlushDraw() {
+        Hand firstHand = new Hand("D3 D8 D10 D6 DK");
+        Hand secondHand = new Hand("S5 S3 SQ S7 S9");
+
+        Hand result = classUnderTest.compare(firstHand, secondHand);
+
+        assertThat(result, is(equalTo(firstHand)));
+    }
+
 }
