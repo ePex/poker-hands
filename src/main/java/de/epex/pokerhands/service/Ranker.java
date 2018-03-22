@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -115,9 +116,11 @@ public class Ranker {
     }
 
     private int getPairCount(Hand hand) {
-        Set<Integer> pairs = hand.getPairs();
+        Map<Integer, Long> cardsWithSameValue = hand.getCardsWithSameValue();
 
-        return pairs.size();
+        return (int) cardsWithSameValue.values().stream()
+                .filter(cardValueOccurrenceCount -> cardValueOccurrenceCount == 2)
+                .count();
     }
 
 }
