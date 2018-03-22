@@ -3,15 +3,15 @@ package de.epex.pokerhands.service;
 import de.epex.pokerhands.service.model.Hand;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Service
-public class Comparator {
+public class HandComparator implements Comparator<Hand> {
 
     private final Ranker ranker;
 
-    public Comparator(Ranker ranker) {
+    public HandComparator(Ranker ranker) {
         this.ranker = ranker;
     }
 
@@ -21,7 +21,8 @@ public class Comparator {
      * @param secondHand
      * @return null on draw otherwise winning hand
      */
-    public Hand compare(Hand firstHand, Hand secondHand) {
+    @Override
+    public int compare(Hand firstHand, Hand secondHand) {
         int valueFirstHand = ranker.getRank(firstHand).getValue();
         int valueSecondHand = ranker.getRank(secondHand).getValue();
 
@@ -29,16 +30,19 @@ public class Comparator {
             Map<Integer, Long> firstHandPairs = firstHand.getCardsWithSameValue();
             Map<Integer, Long> secondHandPairs = secondHand.getCardsWithSameValue();
 
+            // full house
             if (Rank.FULL_HOUSE.getValue() == valueFirstHand) {
                 valueFirstHand = firstHandPairs.entrySet().stream().filter(e -> e.getValue() == 3).mapToInt(Map.Entry::getKey).sum();
                 valueSecondHand = secondHandPairs.entrySet().stream().filter(e -> e.getValue() == 3).mapToInt(Map.Entry::getKey).sum();
             }
 
+            // two pair
             if (valueFirstHand == valueSecondHand) {
                 valueFirstHand = firstHandPairs.keySet().stream().mapToInt(Integer::intValue).max().orElse(0);
                 valueSecondHand = secondHandPairs.keySet().stream().mapToInt(Integer::intValue).max().orElse(0);
             }
 
+            //one pair
             if (valueFirstHand == valueSecondHand) {
                 valueFirstHand = firstHandPairs.keySet().stream().mapToInt(Integer::intValue).sum();
                 valueSecondHand = secondHandPairs.keySet().stream().mapToInt(Integer::intValue).sum();
@@ -57,7 +61,7 @@ public class Comparator {
                 }
             }
         }
-        return valueFirstHand == valueSecondHand ? null : valueFirstHand > valueSecondHand ? firstHand : secondHand;
+        return Integer.compare(valueFirstHand, valueSecondHand);
     }
 
 }
