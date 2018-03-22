@@ -180,4 +180,16 @@ public class ComparatorTest {
         assertThat(result, is(equalTo(secondHand)));
     }
 
+    @Test
+    public void testCompareFourOfAKindDraw() {
+        Hand firstHand = new Hand("D3 C3 H3 S3 DK");
+        Hand secondHand = new Hand("S5 C5 D5 H5 C7");
+
+        Hand result = classUnderTest.compare(firstHand, secondHand);
+        assertThat(result, is(equalTo(secondHand)));
+
+        result = classUnderTest.compare(secondHand, firstHand);
+        assertThat(result, is(equalTo(secondHand)));
+    }
+
 }
