@@ -168,4 +168,16 @@ public class ComparatorTest {
         assertThat(result, is(equalTo(firstHand)));
     }
 
+    @Test
+    public void testCompareFullHouseDraw() {
+        Hand firstHand = new Hand("D3 C3 H3 SK DK");
+        Hand secondHand = new Hand("S5 C5 D5 S7 C7");
+
+        Hand result = classUnderTest.compare(firstHand, secondHand);
+        assertThat(result, is(equalTo(secondHand)));
+
+        result = classUnderTest.compare(secondHand, firstHand);
+        assertThat(result, is(equalTo(secondHand)));
+    }
+
 }

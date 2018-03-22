@@ -4,6 +4,7 @@ import de.epex.pokerhands.service.model.Hand;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class Comparator {
@@ -27,8 +28,17 @@ public class Comparator {
         if (valueFirstHand == valueSecondHand) {
             Map<Integer, Long> firstHandPairs = firstHand.getCardsWithSameValue();
             Map<Integer, Long> secondHandPairs = secondHand.getCardsWithSameValue();
-            valueFirstHand = firstHandPairs.keySet().stream().mapToInt(Integer::intValue).max().orElse(0);
-            valueSecondHand = secondHandPairs.keySet().stream().mapToInt(Integer::intValue).max().orElse(0);
+
+            if (Rank.FULL_HOUSE.getValue() == valueFirstHand) {
+                valueFirstHand = firstHandPairs.entrySet().stream().filter(e -> e.getValue() == 3).mapToInt(Map.Entry::getKey).sum();
+                valueSecondHand = secondHandPairs.entrySet().stream().filter(e -> e.getValue() == 3).mapToInt(Map.Entry::getKey).sum();
+            }
+
+            if (valueFirstHand == valueSecondHand) {
+                valueFirstHand = firstHandPairs.keySet().stream().mapToInt(Integer::intValue).max().orElse(0);
+                valueSecondHand = secondHandPairs.keySet().stream().mapToInt(Integer::intValue).max().orElse(0);
+            }
+
             if (valueFirstHand == valueSecondHand) {
                 valueFirstHand = firstHandPairs.keySet().stream().mapToInt(Integer::intValue).sum();
                 valueSecondHand = secondHandPairs.keySet().stream().mapToInt(Integer::intValue).sum();
