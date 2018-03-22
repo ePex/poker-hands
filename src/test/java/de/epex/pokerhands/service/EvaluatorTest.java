@@ -31,5 +31,4 @@ public class EvaluatorTest {
         assertThat(result, is("It's a draw!"));
     }
 
-    // TODO: implement comparator for handling draw situations
 }
