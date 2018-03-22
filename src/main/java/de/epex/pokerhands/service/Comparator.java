@@ -34,7 +34,6 @@ public class Comparator {
             Set<Integer> secondHandPairs = secondHand.getPairs();
             valueFirstHand = firstHandPairs.stream().mapToInt(Integer::intValue).max().orElse(0);
             valueSecondHand = secondHandPairs.stream().mapToInt(Integer::intValue).max().orElse(0);
-
             if (valueFirstHand == valueSecondHand) {
                 valueFirstHand = firstHandPairs.stream().mapToInt(Integer::intValue).sum();
                 valueSecondHand = secondHandPairs.stream().mapToInt(Integer::intValue).sum();

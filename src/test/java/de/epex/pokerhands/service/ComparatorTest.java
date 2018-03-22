@@ -94,6 +94,16 @@ public class ComparatorTest {
 
     @Test
     public void testCompareTwoPairDrawRemainingHighestCardWins() {
+        Hand firstHand = new Hand("S10 H10 S7 H2 D2");
+        Hand secondHand = new Hand("S2 H2 D9 D10 C10");
+
+        Hand result = classUnderTest.compare(firstHand, secondHand);
+
+        assertThat(result, is(equalTo(secondHand)));
+    }
+
+    @Test
+    public void testCompareTwoPairDrawRealDraw() {
         Hand firstHand = new Hand("S3 C3 S7 H2 D2");
         Hand secondHand = new Hand("S2 H2 D9 D10 C10");
 
@@ -102,6 +112,14 @@ public class ComparatorTest {
         assertThat(result, is(equalTo(secondHand)));
     }
 
+    @Test
+    public void testCompareThreeOfAKindDraw() {
+        Hand firstHand = new Hand("S3 C3 S7 H2 D2");
+        Hand secondHand = new Hand("S2 H2 D9 D10 C10");
 
+        Hand result = classUnderTest.compare(firstHand, secondHand);
+
+        assertThat(result, is(equalTo(secondHand)));
+    }
 
 }
