@@ -18,7 +18,9 @@ public class ComparatorTest {
         Hand secondHand = new Hand("DA D3 D5 H8 S8");
 
         Hand result = classUnderTest.compare(firstHand, secondHand);
+        assertThat(result, is(equalTo(firstHand)));
 
+        result = classUnderTest.compare(secondHand, firstHand);
         assertThat(result, is(equalTo(firstHand)));
     }
 
@@ -28,7 +30,9 @@ public class ComparatorTest {
         Hand secondHand = new Hand("S3 H7 D9 DJ CK");
 
         Hand result = classUnderTest.compare(firstHand, secondHand);
+        assertThat(result, is(equalTo(firstHand)));
 
+        result = classUnderTest.compare(secondHand, firstHand);
         assertThat(result, is(equalTo(firstHand)));
     }
 
@@ -38,7 +42,9 @@ public class ComparatorTest {
         Hand secondHand = new Hand("C3 H7 D9 DJ CA");
 
         Hand result = classUnderTest.compare(firstHand, secondHand);
+        assertThat(result, nullValue());
 
+        result = classUnderTest.compare(secondHand, firstHand);
         assertThat(result, nullValue());
     }
 
@@ -48,7 +54,9 @@ public class ComparatorTest {
         Hand secondHand = new Hand("S4 H4 D9 DJ CK");
 
         Hand result = classUnderTest.compare(firstHand, secondHand);
+        assertThat(result, is(equalTo(firstHand)));
 
+        result = classUnderTest.compare(secondHand, firstHand);
         assertThat(result, is(equalTo(firstHand)));
     }
 
@@ -58,7 +66,9 @@ public class ComparatorTest {
         Hand secondHand = new Hand("S2 H2 D9 DJ C10");
 
         Hand result = classUnderTest.compare(firstHand, secondHand);
+        assertThat(result, is(equalTo(secondHand)));
 
+        result = classUnderTest.compare(secondHand, firstHand);
         assertThat(result, is(equalTo(secondHand)));
     }
 
@@ -68,7 +78,9 @@ public class ComparatorTest {
         Hand secondHand = new Hand("S2 H2 D7 D6 C3");
 
         Hand result = classUnderTest.compare(firstHand, secondHand);
+        assertThat(result, nullValue());
 
+        result = classUnderTest.compare(secondHand, firstHand);
         assertThat(result, nullValue());
     }
 
@@ -78,7 +90,9 @@ public class ComparatorTest {
         Hand secondHand = new Hand("S3 H3 D9 DK CK");
 
         Hand result = classUnderTest.compare(firstHand, secondHand);
+        assertThat(result, is(equalTo(secondHand)));
 
+        result = classUnderTest.compare(secondHand, firstHand);
         assertThat(result, is(equalTo(secondHand)));
     }
 
@@ -88,7 +102,9 @@ public class ComparatorTest {
         Hand secondHand = new Hand("S3 H3 D9 DJ HJ");
 
         Hand result = classUnderTest.compare(firstHand, secondHand);
+        assertThat(result, is(equalTo(firstHand)));
 
+        result = classUnderTest.compare(secondHand, firstHand);
         assertThat(result, is(equalTo(firstHand)));
     }
 
@@ -98,7 +114,9 @@ public class ComparatorTest {
         Hand secondHand = new Hand("S2 H2 D9 D10 C10");
 
         Hand result = classUnderTest.compare(firstHand, secondHand);
+        assertThat(result, is(equalTo(secondHand)));
 
+        result = classUnderTest.compare(secondHand, firstHand);
         assertThat(result, is(equalTo(secondHand)));
     }
 
@@ -108,7 +126,9 @@ public class ComparatorTest {
         Hand secondHand = new Hand("S2 H2 D9 D10 C10");
 
         Hand result = classUnderTest.compare(firstHand, secondHand);
+        assertThat(result, is(equalTo(secondHand)));
 
+        result = classUnderTest.compare(secondHand, firstHand);
         assertThat(result, is(equalTo(secondHand)));
     }
 
@@ -118,7 +138,9 @@ public class ComparatorTest {
         Hand secondHand = new Hand("S4 C4 H4 S8 D7");
 
         Hand result = classUnderTest.compare(firstHand, secondHand);
+        assertThat(result, is(equalTo(secondHand)));
 
+        result = classUnderTest.compare(secondHand, firstHand);
         assertThat(result, is(equalTo(secondHand)));
     }
 
@@ -128,7 +150,9 @@ public class ComparatorTest {
         Hand secondHand = new Hand("D5 C6 H7 S8 D9");
 
         Hand result = classUnderTest.compare(firstHand, secondHand);
+        assertThat(result, is(equalTo(secondHand)));
 
+        result = classUnderTest.compare(secondHand, firstHand);
         assertThat(result, is(equalTo(secondHand)));
     }
 
@@ -138,7 +162,9 @@ public class ComparatorTest {
         Hand secondHand = new Hand("S5 S3 SQ S7 S9");
 
         Hand result = classUnderTest.compare(firstHand, secondHand);
+        assertThat(result, is(equalTo(firstHand)));
 
+        result = classUnderTest.compare(secondHand, firstHand);
         assertThat(result, is(equalTo(firstHand)));
     }
 
