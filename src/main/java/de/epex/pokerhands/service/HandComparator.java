@@ -1,6 +1,7 @@
 package de.epex.pokerhands.service;
 
 import de.epex.pokerhands.service.model.Hand;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
@@ -11,6 +12,7 @@ public class HandComparator implements Comparator<Hand> {
 
     private final Ranker ranker;
 
+    @Autowired
     public HandComparator(Ranker ranker) {
         this.ranker = ranker;
     }
@@ -19,7 +21,7 @@ public class HandComparator implements Comparator<Hand> {
      *
      * @param firstHand
      * @param secondHand
-     * @return null on draw otherwise winning hand
+     * @return zero on draw negative value if first hand is less then second hand and positive value if first hand is higher then second hand
      */
     @Override
     public int compare(Hand firstHand, Hand secondHand) {
@@ -30,26 +32,26 @@ public class HandComparator implements Comparator<Hand> {
             Map<Integer, Long> firstHandPairs = firstHand.getCardsWithSameValue();
             Map<Integer, Long> secondHandPairs = secondHand.getCardsWithSameValue();
 
-            // full house
+            // special case for full house
             if (Rank.FULL_HOUSE.getValue() == valueFirstHand) {
                 valueFirstHand = firstHandPairs.entrySet().stream().filter(e -> e.getValue() == 3).mapToInt(Map.Entry::getKey).sum();
                 valueSecondHand = secondHandPairs.entrySet().stream().filter(e -> e.getValue() == 3).mapToInt(Map.Entry::getKey).sum();
             }
 
-            // two pair
+            // max value of cards with same value (like three of a kind)
             if (valueFirstHand == valueSecondHand) {
                 valueFirstHand = firstHandPairs.keySet().stream().mapToInt(Integer::intValue).max().orElse(0);
                 valueSecondHand = secondHandPairs.keySet().stream().mapToInt(Integer::intValue).max().orElse(0);
             }
 
-            //one pair
+            // sum of cards with same value (like a pair)
             if (valueFirstHand == valueSecondHand) {
                 valueFirstHand = firstHandPairs.keySet().stream().mapToInt(Integer::intValue).sum();
                 valueSecondHand = secondHandPairs.keySet().stream().mapToInt(Integer::intValue).sum();
             }
 
             if (valueFirstHand == valueSecondHand) {
-                // high card draw
+                // highest card
                 int index = 5;
                 while (index > 0) {
                     index--;
@@ -64,4 +66,12 @@ public class HandComparator implements Comparator<Hand> {
         return Integer.compare(valueFirstHand, valueSecondHand);
     }
 
+    public String compareAndGetResultMessage(Hand firstHand, Hand secondHand) {
+        int compareResult = compare(firstHand, secondHand);
+
+        return compareResult == 0 ? "It's a draw!" :
+                compareResult > 0 ? String.format("First hand wins! (%s)", ranker.getRank(firstHand).getName())
+                        : String.format("First hand wins! (%s)", ranker.getRank(secondHand).getName());
+
+    }
 }
