@@ -71,7 +71,7 @@ public class HandComparator implements Comparator<Hand> {
 
         return compareResult == 0 ? "It's a draw!" :
                 compareResult > 0 ? String.format("First hand wins! (%s)", ranker.getRank(firstHand).getName())
-                        : String.format("First hand wins! (%s)", ranker.getRank(secondHand).getName());
+                        : String.format("Second hand wins! (%s)", ranker.getRank(secondHand).getName());
 
     }
 }
