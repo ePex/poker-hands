@@ -3,6 +3,9 @@ package de.epex.pokerhands.service.model;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class Hand {
 
@@ -25,12 +28,8 @@ public class Hand {
 
     @Override
     public String toString() {
-        StringBuilder result = new StringBuilder();
-        for (Card card : cards) {
-            result.append(card).append(" ");
-        }
-
-        return result.toString();
+        return cards.stream()
+                .map(card -> card + " ").collect(Collectors.joining());
     }
 
     public List<Card> getCards() {
@@ -45,4 +44,16 @@ public class Hand {
         cards.sort(Comparator.comparingInt(Card::getValue));
     }
 
+    public Map<Integer, Long> getCardsWithSameValue() {
+        List<Integer> cards = getCards().stream().map(Card::getValue).collect(Collectors.toList());
+
+        // count card occurrence
+        Map<Integer, Long> cardValuesWithOccurrenceCount = cards.stream()
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+
+        // reduce by all cards that occur only once and return new map
+        return cardValuesWithOccurrenceCount.entrySet().stream()
+                .filter(cardValueOccurrenceCount -> cardValueOccurrenceCount.getValue() > 1)
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+    }
 }

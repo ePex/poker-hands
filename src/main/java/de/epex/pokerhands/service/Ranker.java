@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -115,13 +116,11 @@ public class Ranker {
     }
 
     private int getPairCount(Hand hand) {
-        List<Integer> cards = hand.getCards().stream().map(Card::getValue).collect(Collectors.toList());
-        Set<Integer> allItems = new HashSet<>();
-        Set<Integer> duplicates = cards.stream()
-                .filter(n -> !allItems.add(n)) //Set.add() returns false if the item was already in the set.
-                .collect(Collectors.toSet());
+        Map<Integer, Long> cardsWithSameValue = hand.getCardsWithSameValue();
 
-        return duplicates.size();
+        return (int) cardsWithSameValue.values().stream()
+                .filter(cardValueOccurrenceCount -> cardValueOccurrenceCount == 2)
+                .count();
     }
 
 }

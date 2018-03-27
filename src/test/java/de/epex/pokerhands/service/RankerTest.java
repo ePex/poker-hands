@@ -76,6 +76,4 @@ public class RankerTest {
         Rank result = classUnderTest.getRank(new Hand("H10 HJ HQ HK HA"));
         assertThat(result, is(equalTo(Rank.ROYAL_FLUSH)));
     }
-
-    // TODO: kicker?
 }
