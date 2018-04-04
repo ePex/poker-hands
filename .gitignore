@@ -1,23 +1,36 @@
-target/
+target
 
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
+# Package Files #
+*.jar
+*.war
+*.ear
+
+# Eclipse #
 .settings
-.springBeans
+.project
+.classpath
+.studio
 
-### IntelliJ IDEA ###
+# Apple #
+.DS_Store
+
+# Intellij #
 .idea
-*.iws
 *.iml
-*.ipr
+*.log
 
-### NetBeans ###
-nbproject/private/
-build/
-nbbuild/
-dist/
-nbdist/
-.nb-gradle/
+# logback
+logback.out.xml
+
+backend/src/main/resources/public/
+frontend/dist/
+frontend/node/
+frontend/node_modules/
+frontend/npm-debug.log
+frontend/test-output
+frontend/test/e2e/reports
+frontend/test/unit/coverage
+frontend/yarn-error.log
+frontend/yarn.lock
+security/target/
+selenium-debug.log
