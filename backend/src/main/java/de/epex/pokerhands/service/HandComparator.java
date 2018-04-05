@@ -54,9 +54,8 @@ public class HandComparator implements Comparator<Hand> {
             return -1;
         }
 
-
-        int valueFirstHand = 0;//ranker.getRank(firstHand).getValue();
-        int valueSecondHand = 0;//ranker.getRank(secondHand).getValue();
+        int valueFirstHand = firstHand.getRank().getValue();
+        int valueSecondHand = secondHand.getRank().getValue();
 
         if (valueFirstHand == valueSecondHand) {
             Map<Integer, Long> firstHandPairs = firstHand.getCardsWithSameValue();
@@ -108,13 +107,8 @@ public class HandComparator implements Comparator<Hand> {
     public String compareAndGetResultMessage(Hand firstHand, Hand secondHand) {
         int compareResult = compare(firstHand, secondHand);
 
-        return "bla";
-        /*
         return compareResult == 0 ? "It's a draw!" :
-                compareResult > 0 ? String.format("First hand wins! (%s)", ranker.getRank(firstHand).getName())
-                        : String.format("Second hand wins! (%s)", ranker.getRank(secondHand).getName());
-
-        */
-
+                compareResult > 0 ? String.format("First hand wins! (%s)", firstHand.getRank().getName())
+                        : String.format("Second hand wins! (%s)", secondHand.getRank().getName());
     }
 }
