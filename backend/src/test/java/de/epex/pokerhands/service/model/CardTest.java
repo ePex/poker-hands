@@ -3,7 +3,9 @@ package de.epex.pokerhands.service.model;
 import org.junit.Test;
 
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.lessThan;
 import static org.junit.Assert.*;
 
 public class CardTest {
@@ -61,6 +63,24 @@ public class CardTest {
     @Test(expected = IllegalArgumentException.class)
     public void testCardNotInDeck() {
         new Card("S1");
+    }
+
+    @Test
+    public void testCardCompareToLess() {
+        int result = new Card("S2").compareTo(new Card("S3"));
+        assertThat(result, is(lessThan(0)));
+    }
+
+    @Test
+    public void testCardCompareToEqual() {
+        int result = new Card("S2").compareTo(new Card("D2"));
+        assertThat(result, is(equalTo(0)));
+    }
+
+    @Test
+    public void testCardCompareToGreater() {
+        int result = new Card("S3").compareTo(new Card("S2"));
+        assertThat(result, is(greaterThan(0)));
     }
 
 }

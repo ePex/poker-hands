@@ -2,7 +2,7 @@ package de.epex.pokerhands.service.model;
 
 import java.util.Objects;
 
-public class Card {
+public class Card implements Comparable<Card> {
 
     private final String suite;
 
@@ -68,5 +68,10 @@ public class Card {
 
     public int getValue() {
         return value;
+    }
+
+    @Override
+    public int compareTo(Card card) {
+        return Integer.compare(value, card.getValue());
     }
 }
