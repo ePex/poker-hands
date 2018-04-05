@@ -1,6 +1,7 @@
 package de.epex.pokerhands.service.model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -20,9 +21,7 @@ public class Hand {
             throw new IllegalArgumentException(String.format("Hand is either to small or big (must contain %d cards)", SIZE));
         }
 
-        for (String cardString : cardsAsStrings) {
-            cards.add(new Card(cardString));
-        }
+        Arrays.stream(cardsAsStrings).forEach(cardString -> cards.add(new Card(cardString)));
         sort();
     }
 
