@@ -20,7 +20,7 @@ public class PokerHandsApplication {
 		return new WebMvcConfigurerAdapter() {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/rest/*").allowedOrigins("http://localhost:8080");
+				registry.addMapping("/rest/**").allowedOrigins("http://localhost:3000").allowedMethods("*").allowedHeaders("*");
 			}
 		};
 	}
