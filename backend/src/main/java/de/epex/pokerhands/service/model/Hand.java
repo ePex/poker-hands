@@ -2,9 +2,12 @@ package de.epex.pokerhands.service.model;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -34,6 +37,81 @@ public class Hand {
     public List<Card> getCards() {
         return cards;
     }
+
+    public Card getHighCard() {
+        return cards.get(cards.size() - 1);
+    }
+
+    public boolean hasPair() {
+        return getCardsWithSameValue().values().stream()
+                .filter(cardValueOccurrenceCount -> cardValueOccurrenceCount == 2)
+                .count() == 1;
+    }
+
+    public boolean hasTwoPair() {
+        return getCardsWithSameValue().values().stream()
+                .filter(cardValueOccurrenceCount -> cardValueOccurrenceCount == 2)
+                .count() == 2;
+    }
+
+    public boolean hasThreeOfAKind() {
+        return hasCountOfAKind(3);
+    }
+
+    public boolean hasStraight() {
+        Card previousCard = null;
+        int count = 0;
+        for (Card card : cards) {
+            if (previousCard == null || (previousCard.getValue() == card.getValue() - 1)) {
+                previousCard = card;
+                count++;
+            } else {
+                return false;
+            }
+        }
+
+        return count == 5;
+    }
+
+    public boolean hasFlush() {
+        String suite = null;
+        for (Card card : cards) {
+            if (suite == null || suite.equalsIgnoreCase(card.getSuite())) {
+                suite = card.getSuite();
+            } else {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public boolean hasFullHouse() {
+        return hasCountOfAKind(3) && hasCountOfAKind(2);
+    }
+
+    public boolean hasFourOfAKind() {
+        return hasCountOfAKind(4);
+    }
+
+    public boolean hasStraightFlush() {
+        return hasStraight() && hasFlush();
+    }
+
+    public boolean hasRoyalFlush() {
+        Card referenceCard = new Card("DA");
+
+        return hasStraightFlush() && referenceCard.getValue() == getHighCard().getValue();
+    }
+
+
+    private boolean hasCountOfAKind(int count) {
+        List<Integer> cardValues = cards.stream().map(Card::getValue).collect(Collectors.toList());
+        Set<Integer> uniqueSet = new HashSet<>(cardValues);
+
+        return uniqueSet.stream().anyMatch(temp -> Collections.frequency(cardValues, temp) == count);
+    }
+
 
     private boolean invalidSize(int size) {
         return size < SIZE || size > SIZE;
