@@ -1,6 +1,7 @@
 package de.epex.pokerhands.service;
 
 import de.epex.pokerhands.service.model.Hand;
+import de.epex.pokerhands.service.rankers.Ranker;
 import org.junit.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -11,7 +12,7 @@ import static org.hamcrest.Matchers.is;
 
 public class HandComparatorTest {
 
-    private final HandComparator classUnderTest = new HandComparator(new Ranker());
+    private final HandComparator classUnderTest = new HandComparator();
 
     @Test
     public void testCompareFirstHandWinsWithStraight() {

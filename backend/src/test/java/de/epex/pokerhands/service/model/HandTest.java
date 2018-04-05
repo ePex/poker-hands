@@ -1,5 +1,6 @@
 package de.epex.pokerhands.service.model;
 
+import de.epex.pokerhands.service.Rank;
 import org.junit.Test;
 
 import java.util.Map;
@@ -51,8 +52,11 @@ public class HandTest {
 
     @Test
     public void testGetHighCard() {
-        Card highCard = validHand.getHighCard();
-        assertThat(highCard, is(equalTo(new Card("S7"))));
+        Hand hand = new Hand("S4 D7 S9 HJ CK");
+        Card highCard = hand.getHighCard();
+
+        assertThat(highCard, is(equalTo(new Card("CK"))));
+        assertThat(hand.getRank(), is(equalTo(Rank.HIGH_CARD)));
     }
 
     @Test
@@ -60,6 +64,7 @@ public class HandTest {
         Hand hand = new Hand("S3 C6 S7 HQ DQ");
 
         assertThat(hand.hasPair(), is(true));
+        assertThat(hand.getRank(), is(equalTo(Rank.PAIR)));
     }
 
     @Test
@@ -67,6 +72,7 @@ public class HandTest {
         Hand hand = new Hand("S4 D8 H8 CJ SJ");
 
         assertThat(hand.hasTwoPair(), is(true));
+        assertThat(hand.getRank(), is(equalTo(Rank.TWO_PAIRS)));
     }
 
     @Test
@@ -74,6 +80,7 @@ public class HandTest {
         Hand hand = new Hand("H4 S2 HA SA DA");
 
         assertThat(hand.hasThreeOfAKind(), is(true));
+        assertThat(hand.getRank(), is(equalTo(Rank.THREE_OF_A_KIND)));
     }
 
     @Test
@@ -81,6 +88,7 @@ public class HandTest {
         Hand hand = new Hand("S3 D4 S5 H6 C7");
 
         assertThat(hand.hasStraight(), is(true));
+        assertThat(hand.getRank(), is(equalTo(Rank.STRAIGHT)));
     }
 
     @Test
@@ -88,6 +96,7 @@ public class HandTest {
         Hand hand = new Hand("S8 D9 S10 HJ CQ");
 
         assertThat(hand.hasStraight(), is(true));
+        assertThat(hand.getRank(), is(equalTo(Rank.STRAIGHT)));
     }
 
     @Test
@@ -95,6 +104,7 @@ public class HandTest {
         Hand hand = new Hand("D3 D6 D9 DQ DK");
 
         assertThat(hand.hasFlush(), is(true));
+        assertThat(hand.getRank(), is(equalTo(Rank.FLUSH)));
     }
 
     @Test
@@ -102,6 +112,7 @@ public class HandTest {
         Hand hand = new Hand("S2 H2 CQ HQ SQ");
 
         assertThat(hand.hasFullHouse(), is(true));
+        assertThat(hand.getRank(), is(equalTo(Rank.FULL_HOUSE)));
     }
 
     @Test
@@ -109,6 +120,7 @@ public class HandTest {
         Hand hand = new Hand("H2 SJ HJ CJ DJ");
 
         assertThat(hand.hasFourOfAKind(), is(true));
+        assertThat(hand.getRank(), is(equalTo(Rank.FOUR_OF_A_KIND)));
     }
 
     @Test
@@ -116,6 +128,7 @@ public class HandTest {
         Hand hand = new Hand("S3 S4 S5 S6 S7");
 
         assertThat(hand.hasStraightFlush(), is(true));
+        assertThat(hand.getRank(), is(equalTo(Rank.STRAIGHT_FLUSH)));
     }
 
     @Test
@@ -123,6 +136,7 @@ public class HandTest {
         Hand hand = new Hand("H10 HJ HQ HK HA");
 
         assertThat(hand.hasRoyalFlush(), is(true));
+        assertThat(hand.getRank(), is(equalTo(Rank.ROYAL_FLUSH)));
     }
 
 

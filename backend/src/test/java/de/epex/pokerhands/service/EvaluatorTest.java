@@ -1,5 +1,6 @@
 package de.epex.pokerhands.service;
 
+import de.epex.pokerhands.service.rankers.Ranker;
 import org.junit.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -11,7 +12,7 @@ public class EvaluatorTest {
     private final static String SECOND_INPUT_OK = "DA D3 D5 H8 S8";
     private final static String INPUT_NOT_OK = "S2 C7 HA D1 S9";
 
-    private final Evaluator classUnderTest = new Evaluator(new HandComparator(new Ranker()));
+    private final Evaluator classUnderTest = new Evaluator(new HandComparator());
 
     @Test
     public void testEvaluateFirstHandWinsWithStraight() {

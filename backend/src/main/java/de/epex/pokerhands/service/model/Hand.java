@@ -1,5 +1,7 @@
 package de.epex.pokerhands.service.model;
 
+import de.epex.pokerhands.service.Rank;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -104,6 +106,37 @@ public class Hand {
         return hasStraightFlush() && referenceCard.getValue() == getHighCard().getValue();
     }
 
+    public Rank getRank() {
+        if (hasRoyalFlush()) {
+            return Rank.ROYAL_FLUSH;
+        }
+        if (hasStraightFlush()) {
+            return Rank.STRAIGHT_FLUSH;
+        }
+        if (hasFourOfAKind()) {
+            return Rank.FOUR_OF_A_KIND;
+        }
+        if (hasFullHouse()) {
+            return Rank.FULL_HOUSE;
+        }
+        if (hasFlush()) {
+            return Rank.FLUSH;
+        }
+        if (hasStraight()) {
+            return Rank.STRAIGHT;
+        }
+        if (hasThreeOfAKind()) {
+            return Rank.THREE_OF_A_KIND;
+        }
+        if (hasTwoPair()) {
+            return Rank.TWO_PAIRS;
+        }
+        if (hasPair()) {
+            return Rank.PAIR;
+        }
+
+        return Rank.HIGH_CARD;
+    }
 
     private boolean hasCountOfAKind(int count) {
         List<Integer> cardValues = cards.stream().map(Card::getValue).collect(Collectors.toList());
