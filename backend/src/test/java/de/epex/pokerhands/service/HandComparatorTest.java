@@ -27,30 +27,6 @@ public class HandComparatorTest {
     }
 
     @Test
-    public void testCompareHighCardDrawNextHighestCardWins() {
-        Hand firstHand = new Hand("S4 D7 S9 HJ CA");
-        Hand secondHand = new Hand("S3 H7 D9 DJ CK");
-
-        int result = classUnderTest.compare(firstHand, secondHand);
-        assertThat(result, is(greaterThan(0)));
-
-        result = classUnderTest.compare(secondHand, firstHand);
-        assertThat(result, is(lessThan(0)));
-    }
-
-    @Test
-    public void testCompareHighCardRealDraw() {
-        Hand firstHand = new Hand("S3 D7 S9 HJ CA");
-        Hand secondHand = new Hand("C3 H7 D9 DJ CA");
-
-        int result = classUnderTest.compare(firstHand, secondHand);
-        assertThat(result, is(equalTo(0)));
-
-        result = classUnderTest.compare(secondHand, firstHand);
-        assertThat(result, is(equalTo(0)));
-    }
-
-    @Test
     public void testComparePairDrawHigherPairWins() {
         Hand firstHand = new Hand("S3 C6 S7 HQ DQ");
         Hand secondHand = new Hand("S4 H4 D9 DJ CK");
