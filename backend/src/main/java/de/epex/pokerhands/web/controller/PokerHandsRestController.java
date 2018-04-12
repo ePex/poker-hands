@@ -30,14 +30,6 @@ public class PokerHandsRestController {
         return comparisonResultDto;
     }
 
-    @RequestMapping(value= "/compare-hands", method=RequestMethod.OPTIONS)
-    public void corsHeaders(HttpServletResponse response) {
-        response.addHeader("Access-Control-Allow-Origin", "*");
-        response.addHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-        response.addHeader("Access-Control-Allow-Headers", "origin, content-type, accept, x-requested-with");
-        response.addHeader("Access-Control-Max-Age", "3600");
-    }
-
     private String getResultMessage(CompareHandsDto compareHandsDto) {
         return evaluator.evaluate(compareHandsDto.getFirstHand(), compareHandsDto.getSecondHand());
     }

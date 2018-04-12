@@ -17,22 +17,22 @@
 </template>
 
 <script>
-import axios from 'axios'
+import {AXIOS} from './http-common'
 
 export default {
-  name: 'HandsForm',
+  name: `HandsForm`,
   data () {
     return {
-      firstHand: 'C5 D3 D4 S7 C6',
-      secondHand: 'DA D3 D5 H8 S8',
-      msg: 'Welcome',
+      firstHand: `C5 D3 D4 S7 C6`,
+      secondHand: `DA D3 D5 H8 S8`,
+      msg: `Welcome`,
       response: [],
       errors: []
     }
   },
   methods: {
     callRestService () {
-      axios.post('http://localhost:8088/rest/poker-hands/compare-hands', {
+      AXIOS.post(`/poker-hands/compare-hands`, {
         'firstHand': this.firstHand,
         'secondHand': this.secondHand
       })
