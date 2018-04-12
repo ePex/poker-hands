@@ -26,4 +26,28 @@ public class HandComparatorTest {
         assertThat(result, is(lessThan(0)));
     }
 
+    @Test
+    public void testCompareDraw() {
+        Hand firstHand = new Hand("C3 D4 D5 S6 C7");
+        Hand secondHand = new Hand("D3 C4 C5 H6 S7");
+
+        int result = classUnderTest.compare(firstHand, secondHand);
+        assertThat(result, is(equalTo(0)));
+
+        result = classUnderTest.compare(secondHand, firstHand);
+        assertThat(result, is(equalTo(0)));
+    }
+
+    @Test
+    public void testHighCardRanker() {
+        Hand firstHand = new Hand("C3 D8 D5 S6 CA");
+        Hand secondHand = new Hand("D3 C9 C5 H6 SK");
+
+        int result = classUnderTest.compare(firstHand, secondHand);
+        assertThat(result, is(greaterThan(0)));
+
+        result = classUnderTest.compare(secondHand, firstHand);
+        assertThat(result, is(lessThan(0)));
+    }
+
 }
