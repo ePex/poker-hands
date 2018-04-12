@@ -32,8 +32,7 @@ public class HandComparator implements Comparator<Hand> {
             new StraightRanker(),
             new ThreeOfAKindRanker(),
             new TwoPairRanker(),
-            new PairRanker(),
-            new HighCardRanker()
+            new PairRanker()
     );
 
     /**
@@ -47,52 +46,12 @@ public class HandComparator implements Comparator<Hand> {
         Ranker ranker = getRanker(firstHand, secondHand);
 
         if (ranker.matches(firstHand) && ranker.matches(secondHand)) {
-            ranker.compare(firstHand, secondHand);
+            return ranker.compare(firstHand, secondHand);
         } else if (ranker.matches(firstHand)) {
             return 1;
         } else {
             return -1;
         }
-
-        int valueFirstHand = firstHand.getRank().getValue();
-        int valueSecondHand = secondHand.getRank().getValue();
-
-        if (valueFirstHand == valueSecondHand) {
-            Map<Integer, Long> firstHandPairs = firstHand.getCardsWithSameValue();
-            Map<Integer, Long> secondHandPairs = secondHand.getCardsWithSameValue();
-
-            // special case for full house
-            if (Rank.FULL_HOUSE.getValue() == valueFirstHand) {
-                valueFirstHand = firstHandPairs.entrySet().stream().filter(e -> e.getValue() == 3).mapToInt(Map.Entry::getKey).sum();
-                valueSecondHand = secondHandPairs.entrySet().stream().filter(e -> e.getValue() == 3).mapToInt(Map.Entry::getKey).sum();
-            }
-
-            // max value of cards with same value (like three of a kind)
-            if (valueFirstHand == valueSecondHand) {
-                valueFirstHand = firstHandPairs.keySet().stream().mapToInt(Integer::intValue).max().orElse(0);
-                valueSecondHand = secondHandPairs.keySet().stream().mapToInt(Integer::intValue).max().orElse(0);
-            }
-
-            // sum of cards with same value (like a pair)
-            if (valueFirstHand == valueSecondHand) {
-                valueFirstHand = firstHandPairs.keySet().stream().mapToInt(Integer::intValue).sum();
-                valueSecondHand = secondHandPairs.keySet().stream().mapToInt(Integer::intValue).sum();
-            }
-
-            if (valueFirstHand == valueSecondHand) {
-                // highest card
-                int index = 5;
-                while (index > 0) {
-                    index--;
-                    valueFirstHand = firstHand.getCards().get(index).getValue();
-                    valueSecondHand = secondHand.getCards().get(index).getValue();
-                    if (firstHand.getCards().get(index).getValue() != secondHand.getCards().get(index).getValue()) {
-                        break;
-                    }
-                }
-            }
-        }
-        return Integer.compare(valueFirstHand, valueSecondHand);
     }
 
     private Ranker getRanker(Hand firstHand, Hand secondHand) {

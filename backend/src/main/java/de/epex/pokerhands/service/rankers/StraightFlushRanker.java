@@ -9,9 +9,4 @@ public class StraightFlushRanker extends HighCardRanker implements Ranker {
         return hand.hasStraightFlush();
     }
 
-    @Override
-    public int compare(Hand firstHand, Hand secondHand) {
-        return 0;
-    }
-
 }

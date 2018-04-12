@@ -8,15 +8,16 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.lessThan;
-import static org.junit.Assert.*;
 
 public class HighCardRankerTest {
 
-    HighCardRanker classUnderTest = new HighCardRanker();
+    private HighCardRanker classUnderTest = new HighCardRanker();
 
     @Test
     public void matches() {
-        assertThat(classUnderTest.matches(new Hand("C2 D5 SA D4 C9")), is(true));;
+        Hand hand = new Hand("C2 D5 SA D4 C9");
+
+        assertThat(classUnderTest.matches(hand), is(true));;
     }
 
     @Test
