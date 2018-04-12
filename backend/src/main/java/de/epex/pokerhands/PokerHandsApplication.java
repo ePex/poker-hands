@@ -14,14 +14,4 @@ public class PokerHandsApplication {
 		SpringApplication.run(PokerHandsApplication.class, args);
 	}
 
-	// Enable CORS globally
-	@Bean
-	public WebMvcConfigurer corsConfigurer() {
-		return new WebMvcConfigurerAdapter() {
-			@Override
-			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/rest/**").allowedOrigins("http://localhost:3000");
-			}
-		};
-	}
 }
