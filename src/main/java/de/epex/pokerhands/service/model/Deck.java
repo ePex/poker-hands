@@ -1,4 +1,6 @@
-package de.epex.pokerhands.service.model;
+package de.epex.pokerhands.service.model; // Package remains the same for now
+
+import de.epex.pokerhands.domain.Card; // Updated import for Card
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,6 +18,7 @@ public class Deck {
 
         for (String suite : suites) {
             for (String valueStr : valueStrings) {
+                // Card constructor is now the record's canonical constructor
                 cards.add(new Card(suite, convertValueStrToInt(valueStr)));
             }
         }
@@ -32,9 +35,8 @@ public class Deck {
         }
     }
 
-    public static boolean isInDeck(Card card) {
-        // Compare based on suite and value for accuracy, as Card is now a record.
-        // The Card.fromString() method uses this for validation.
+    public static boolean isInDeck(Card card) { // Parameter is domain.Card
+        // Logic remains the same as it already uses record accessors
         return cards.stream()
                 .anyMatch(deckCard -> deckCard.suite().equalsIgnoreCase(card.suite()) && deckCard.value() == card.value());
     }

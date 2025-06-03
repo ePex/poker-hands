@@ -37,7 +37,28 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
+			<!-- Spring Boot 3.x uses JUnit 5 by default and excludes JUnit 4 (via junit-vintage-engine) -->
+            <!-- No explicit exclusions needed here for a standard setup -->
 		</dependency>
+
+        <!-- Explicitly add JUnit 5 dependencies -->
+        <!-- Versions are managed by spring-boot-starter-parent -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-params</artifactId>
+            <scope>test</scope>
+        </dependency>
+
 	</dependencies>
 
 	<build>
@@ -46,8 +67,9 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+            <!-- Ensure Surefire plugin is compatible with JUnit 5 (usually automatic with recent versions) -->
+            <!-- No explicit Surefire configuration needed if relying on Spring Boot parent defaults -->
 		</plugins>
 	</build>
-
 
 </project>
