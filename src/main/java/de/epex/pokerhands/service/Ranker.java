@@ -2,6 +2,7 @@ package de.epex.pokerhands.service;
 
 import de.epex.pokerhands.service.model.Card;
 import de.epex.pokerhands.service.model.Hand;
+import de.epex.pokerhands.service.Rank;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -14,7 +15,11 @@ import java.util.stream.Collectors;
 @Service
 public class Ranker {
 
+    // Removed SA_STRING as it's no longer needed for isRoyalFlush
+
     public Rank getRank(Hand hand) {
+        // It's generally more efficient to check for higher ranks first.
+        // The order here seems mostly fine, but keep in mind for future optimizations.
         if (isRoyalFlush(hand)) {
             return Rank.ROYAL_FLUSH;
         }
@@ -48,14 +53,16 @@ public class Ranker {
 
     private boolean isRoyalFlush(Hand hand) {
         List<Card> cards = hand.getCards();
-        Card referenceCard = new Card("DA");
-        Card highestCardFromHand = cards.get(cards.size() - 1);
-
-        return isStraightFlush(hand) && referenceCard.getValue() == highestCardFromHand.getValue();
+        // A Royal Flush is a Straight Flush from Ten to Ace.
+        // Cards are sorted by value in Hand's constructor.
+        return isStraightFlush(hand) &&
+               cards.get(0).value() == 10 && // Ten
+               cards.get(4).value() == 14;  // Ace
     }
 
     private boolean isStraightFlush(Hand hand) {
-        return isStraight(hand) && isFlush(hand);
+        // Both must be true. isFlush is generally cheaper to check first.
+        return isFlush(hand) && isStraight(hand);
     }
 
     private boolean isFourOfAKind(Hand hand) {
@@ -63,64 +70,84 @@ public class Ranker {
     }
 
     private boolean isFullHouse(Hand hand) {
-        return hasCountOfAKind(hand,2) && hasCountOfAKind(hand,3);
+        // Check if there's one pair and one three-of-a-kind.
+        // The getCardsWithSameValue() map in Hand only contains groups with count > 1.
+        // So, for a full house, this map should contain exactly two entries: one for the pair (count 2) and one for the triplet (count 3).
+        Map<Integer, Long> counts = hand.getCardsWithSameValue();
+        return counts.size() == 2 && counts.containsValue(2L) && counts.containsValue(3L);
     }
 
     private boolean isFlush(Hand hand) {
         List<Card> cards = hand.getCards();
-        String suite = null;
-        for (Card card : cards) {
-            if (suite == null || suite.equalsIgnoreCase(card.getSuite())) {
-                suite = card.getSuite();
-            } else {
-                return false;
-            }
+        if (cards.isEmpty()) { // Should not happen with Hand's constructor validation
+            return false;
         }
-
-        return true;
+        String firstSuite = cards.get(0).suite();
+        return cards.stream().allMatch(card -> card.suite().equals(firstSuite));
     }
 
     private boolean isStraight(Hand hand) {
         List<Card> cards = hand.getCards();
-        Card previousCard = null;
-        int count = 0;
-        for (Card card : cards) {
-            if (previousCard == null || (previousCard.getValue() == card.getValue() - 1)) {
-                previousCard = card;
-                count++;
-            } else {
-                return false;
-            }
+        // Hand constructor ensures there are 5 cards and they are sorted by value.
+
+        // Check for Ace-low straight (A, 2, 3, 4, 5)
+        // Sorted as 2, 3, 4, 5, A (where A has value 14)
+        boolean isAceLowStraight = cards.get(0).value() == 2 &&
+                                   cards.get(1).value() == 3 &&
+                                   cards.get(2).value() == 4 &&
+                                   cards.get(3).value() == 5 &&
+                                   cards.get(4).value() == 14; // Ace
+        if (isAceLowStraight) {
+            return true;
         }
 
-        return count == 5;
+        // Check for standard straight (e.g., 5, 6, 7, 8, 9)
+        boolean isStandardStraight = true;
+        for (int i = 0; i < cards.size() - 1; i++) {
+            if (cards.get(i).value() + 1 != cards.get(i + 1).value()) {
+                isStandardStraight = false;
+                break;
+            }
+        }
+        return isStandardStraight;
     }
 
     private boolean isThreeOfAKind(Hand hand) {
-        return hasCountOfAKind(hand, 3);
+        // Must be three of a kind and not a full house (which also has three of a kind).
+        // The getCardsWithSameValue() map in Hand only contains groups with count > 1.
+        // For three of a kind, this map should contain exactly one entry with count 3.
+        Map<Integer, Long> counts = hand.getCardsWithSameValue();
+        return counts.size() == 1 && counts.containsValue(3L);
     }
 
     private boolean hasCountOfAKind(Hand hand, int count) {
-        List<Integer> cards = hand.getCards().stream().map(Card::getValue).collect(Collectors.toList());
-        Set<Integer> uniqueSet = new HashSet<>(cards);
-
-        return uniqueSet.stream().anyMatch(temp -> Collections.frequency(cards, temp) == count);
+        // This helper is more general.
+        // For specific ranks like FourOfAKind, ThreeOfAKind, Pair, TwoPair,
+        // it's often better to use the size and specific counts from getCardsWithSameValue().
+        Map<Integer, Long> counts = hand.getCardsWithSameValue();
+        return counts.containsValue((long) count);
     }
 
     private boolean isTwoPair(Hand hand) {
-        return getPairCount(hand) == 2;
+        // The getCardsWithSameValue() map should contain exactly two entries, both with count 2.
+        Map<Integer, Long> counts = hand.getCardsWithSameValue();
+        return counts.size() == 2 && counts.values().stream().allMatch(count -> count == 2L);
     }
 
     private boolean isPair(Hand hand) {
-        return getPairCount(hand) == 1;
+        // The getCardsWithSameValue() map should contain exactly one entry with count 2.
+        Map<Integer, Long> counts = hand.getCardsWithSameValue();
+        return counts.size() == 1 && counts.containsValue(2L);
     }
 
-    private int getPairCount(Hand hand) {
-        Map<Integer, Long> cardsWithSameValue = hand.getCardsWithSameValue();
-
-        return (int) cardsWithSameValue.values().stream()
-                .filter(cardValueOccurrenceCount -> cardValueOccurrenceCount == 2)
-                .count();
-    }
+    // getPairCount is no longer directly used by isTwoPair or isPair,
+    // but could be kept if it's useful for other logic or future extensions.
+    // For now, let's comment it out or remove it if not needed.
+    // private int getPairCount(Hand hand) {
+    //     Map<Integer, Long> cardsWithSameValue = hand.getCardsWithSameValue();
+    //     return (int) cardsWithSameValue.values().stream()
+    //             .filter(cardValueOccurrenceCount -> cardValueOccurrenceCount == 2)
+    //             .count();
+    // }
 
 }

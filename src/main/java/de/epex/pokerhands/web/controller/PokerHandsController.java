@@ -1,17 +1,20 @@
 package de.epex.pokerhands.web.controller;
 
 import de.epex.pokerhands.service.Evaluator;
+import de.epex.pokerhands.service.exception.InvalidPokerHandException;
 import de.epex.pokerhands.web.dto.CompareHandsDto;
 import de.epex.pokerhands.web.dto.ComparisonResultDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping; // Added
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping; // Added
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@RequestMapping(value = "/poker-hands")
+@RequestMapping(value = "/poker-hands") // Base path can remain
 public class PokerHandsController {
 
     private final Evaluator evaluator;
@@ -21,29 +24,47 @@ public class PokerHandsController {
         this.evaluator = evaluator;
     }
 
-    @RequestMapping(method = RequestMethod.GET)
+    @GetMapping // Changed from @RequestMapping(method = RequestMethod.GET)
     public ModelAndView displayForm() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("enter-poker-hands");
-        modelAndView.addObject(new CompareHandsDto());
-
+        // For records, if the form expects an object to bind to,
+        // providing one with null/empty initial values is common.
+        modelAndView.addObject("compareHandsDto", new CompareHandsDto(null, null));
         return modelAndView;
     }
 
-    @RequestMapping(value = "/compare-hands", method = RequestMethod.POST)
+    @PostMapping(value = "/compare-hands") // Changed from @RequestMapping
     public ModelAndView compareHands(@ModelAttribute CompareHandsDto compareHandsDto) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("comparison-result");
 
-        ComparisonResultDto comparisonResultDto = new ComparisonResultDto();
-        comparisonResultDto.setMessage(getResultMessage(compareHandsDto));
-        modelAndView.addObject(comparisonResultDto);
+        // evaluator.evaluate can now throw InvalidPokerHandException,
+        // which will be handled by the @ExceptionHandler
+        String message = evaluator.evaluate(compareHandsDto.firstHand(), compareHandsDto.secondHand());
+
+        ComparisonResultDto comparisonResultDto = new ComparisonResultDto(message);
+        modelAndView.addObject("comparisonResultDto", comparisonResultDto);
 
         return modelAndView;
     }
 
-    private String getResultMessage(CompareHandsDto compareHandsDto) {
-        return evaluator.evaluate(compareHandsDto.getFirstHand(), compareHandsDto.getSecondHand());
-    }
+    // getResultMessage method is removed as its logic is now inlined in compareHands
+    // and exception handling is done by @ExceptionHandler
 
+    @ExceptionHandler(InvalidPokerHandException.class)
+    public ModelAndView handleInvalidPokerHandException(InvalidPokerHandException ex,
+                                                        @ModelAttribute CompareHandsDto compareHandsDto) {
+        ModelAndView modelAndView = new ModelAndView();
+        // Decide if we want to return to the form or show the error on the result page.
+        // Showing on result page for now.
+        modelAndView.setViewName("comparison-result");
+        modelAndView.addObject("comparisonResultDto", new ComparisonResultDto("Error: " + ex.getMessage()));
+
+        // To allow resubmission or display of entered values if returning to form:
+        // modelAndView.setViewName("enter-poker-hands");
+        // modelAndView.addObject("compareHandsDto", compareHandsDto); // The DTO that caused the error
+
+        return modelAndView;
+    }
 }

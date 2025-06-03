@@ -1,72 +1,70 @@
 package de.epex.pokerhands.service.model;
 
+import de.epex.pokerhands.service.exception.InvalidPokerHandException; // Added import
 import java.util.Objects;
 
-public class Card {
+public record Card(String suite, int value) {
 
-    private final String suite;
-
-    private final int value;
-
-    public Card(String cardString) {
-        this(cardString, true);
-    }
-
-    Card(String cardString, boolean validate) {
-        suite = getSuiteFromCardString(cardString);
-        value = getValueFromCardString(cardString);
-        if (validate && !Deck.isInDeck(this)) {
-            throw new IllegalArgumentException(String.format("Card(%s) is not in deck", toString()));
+    public static Card fromString(String cardString) {
+        if (cardString == null || cardString.length() < 2) {
+            // Corrected to throw InvalidPokerHandException
+            throw new InvalidPokerHandException("Card string must be at least 2 characters long and a valid format (e.g., H2, DA). Input was: " + cardString);
         }
+
+        String suite = getSuiteFromCardStringStatic(cardString);
+        int value = getValueFromCardStringStatic(cardString);
+
+        Card cardToValidate = new Card(suite, value); // Direct instantiation for validation
+        if (!Deck.isInDeck(cardToValidate)) {
+            // Corrected to throw InvalidPokerHandException
+            throw new InvalidPokerHandException(String.format("Card(%s) is not in deck. Input was: %s", cardToValidate.internalToString(), cardString));
+        }
+        return cardToValidate;
     }
 
-    private String getSuiteFromCardString(String card) {
-        return String.valueOf(card.charAt(0));
+    private static String getSuiteFromCardStringStatic(String card) {
+        // Basic validation for suite character
+        char suiteChar = card.charAt(0);
+        if ("CDHScdhs".indexOf(suiteChar) == -1) {
+            throw new InvalidPokerHandException("Invalid suite character: " + suiteChar + ". Valid suites are C, D, H, S.");
+        }
+        return String.valueOf(suiteChar).toUpperCase();
     }
 
-    private int getValueFromCardString(String card) {
+    private static int getValueFromCardStringStatic(String card) {
         String stringValue = card.substring(1).toUpperCase();
-
         switch (stringValue) {
-            case "T":
-                return 10;
-            case "J":
-                return 11;
-            case "Q":
-                return 12;
-            case "K":
-                return 13;
-            case "A":
-                return 14;
+            case "T": return 10;
+            case "J": return 11;
+            case "Q": return 12;
+            case "K": return 13;
+            case "A": return 14;
             default:
-                return Integer.valueOf(stringValue);
+                try {
+                    int val = Integer.parseInt(stringValue);
+                    if (val < 2 || val > 9) {
+                        // Corrected to throw InvalidPokerHandException
+                        throw new InvalidPokerHandException("Invalid card value: " + stringValue + ". Value must be between 2-9 for numeric cards.");
+                    }
+                    return val;
+                } catch (NumberFormatException e) {
+                    // Corrected to throw InvalidPokerHandException
+                    throw new InvalidPokerHandException("Invalid card value: " + stringValue + ". Not a recognized card value.", e);
+                }
         }
     }
 
-    @Override
-    public String toString() {
-        return String.format("%s%s", suite, value);
+    public String internalToString() {
+        String stringValue;
+        switch (value) {
+            case 10: stringValue = "T"; break;
+            case 11: stringValue = "J"; break;
+            case 12: stringValue = "Q"; break;
+            case 13: stringValue = "K"; break;
+            case 14: stringValue = "A"; break;
+            default: stringValue = String.valueOf(value); break;
+        }
+        return suite + stringValue;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Card card = (Card) o;
-        return value == card.value &&
-                Objects.equals(suite, card.suite);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(suite, value);
-    }
-
-    public String getSuite() {
-        return suite;
-    }
-
-    public int getValue() {
-        return value;
-    }
 }

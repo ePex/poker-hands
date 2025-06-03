@@ -1,14 +1,10 @@
 package de.epex.pokerhands.web.dto;
 
-public class ComparisonResultDto {
+// No specific imports needed for a simple record.
 
-    private String message;
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
+public record ComparisonResultDto(String message) {
+    // Record automatically provides:
+    // 1. All-args constructor: public ComparisonResultDto(String message)
+    // 2. Accessor method: public String message()
+    // 3. equals(), hashCode(), and toString() implementations.
 }
