@@ -11,7 +11,7 @@ class HandTest { // Class can be package-private or public for JUnit 5
 
     @Test
     void constructor_validHand_parsesAndSortsCards() {
-        Hand hand = new Hand("C5 D3 D4 S7 C6");
+        Hand hand = new Hand("5C 3D 4D 7S 6C"); // ValueSuite format
         assertEquals(5, hand.getCards().size());
         // Cards are sorted by value: 3, 4, 5, 6, 7
         assertEquals(3, hand.getCards().get(0).value());
@@ -23,7 +23,7 @@ class HandTest { // Class can be package-private or public for JUnit 5
 
     @Test
     void constructor_validHand_evaluatesRank() {
-        Hand hand = new Hand("C5 D3 D4 S7 C6"); // Straight 3-7
+        Hand hand = new Hand("5C 3D 4D 7S 6C"); // Straight 3-7 // ValueSuite format
         assertNotNull(hand.getEvaluationResult());
         assertEquals(Rank.STRAIGHT, hand.getEvaluationResult().rank());
         assertEquals(List.of(7), hand.getEvaluationResult().relevantCardValues()); // Highest card in straight
@@ -31,8 +31,9 @@ class HandTest { // Class can be package-private or public for JUnit 5
 
     @Test
     void toString_returnsCorrectFormat() {
-        Hand hand = new Hand("C5 D3 D4 S7 C6");
+        Hand hand = new Hand("5C 3D 4D 7S 6C"); // ValueSuite format
         // Record's default toString is "Card[suite=C, value=5]"
+        // Hand after sorting: 3D, 4D, 5C, 6C, 7S
         String expectedString = "Card[suite=D, value=3] Card[suite=D, value=4] Card[suite=C, value=5] Card[suite=C, value=6] Card[suite=S, value=7]";
         assertEquals(expectedString, hand.toString());
     }
@@ -203,14 +204,14 @@ class HandTest { // Class can be package-private or public for JUnit 5
     // Tests for getCardsInGroups (previously getCardsWithSameValue)
     @Test
     void getCardsInGroups_noGroups() {
-        Hand hand = new Hand("S3 C6 S7 HQ DK"); // No pairs or groups
+        Hand hand = new Hand("3S 6C 7S QH KD"); // No pairs or groups // ValueSuite format
         Map<Integer, Long> result = hand.getCardsInGroups();
         assertTrue(result.isEmpty(), "Should be empty if no groups of 2 or more");
     }
 
     @Test
     void getCardsInGroups_onePair() {
-        Hand hand = new Hand("S3 C6 S7 HQ DQ"); // Pair of Queens
+        Hand hand = new Hand("3S 6C 7S QH QD"); // Pair of Queens // ValueSuite format
         Map<Integer, Long> result = hand.getCardsInGroups();
         assertEquals(1, result.size());
         assertEquals(2L, result.get(12)); // Queen's value is 12
@@ -218,7 +219,7 @@ class HandTest { // Class can be package-private or public for JUnit 5
 
     @Test
     void getCardsInGroups_twoPair() {
-        Hand hand = new Hand("S6 C6 S7 HQ DQ"); // Pair of Sixes, Pair of Queens
+        Hand hand = new Hand("6S 6C 7S QH QD"); // Pair of Sixes, Pair of Queens // ValueSuite format
         Map<Integer, Long> result = hand.getCardsInGroups();
         assertEquals(2, result.size());
         assertEquals(2L, result.get(6));
@@ -227,7 +228,7 @@ class HandTest { // Class can be package-private or public for JUnit 5
 
     @Test
     void getCardsInGroups_threeOfAKind() {
-        Hand hand = new Hand("S6 C6 H6 S7 DQ"); // Three Sixes
+        Hand hand = new Hand("6S 6C 6H 7S QD"); // Three Sixes // ValueSuite format
         Map<Integer, Long> result = hand.getCardsInGroups();
         assertEquals(1, result.size());
         assertEquals(3L, result.get(6));

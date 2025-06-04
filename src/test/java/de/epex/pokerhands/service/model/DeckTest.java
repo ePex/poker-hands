@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test; // JUnit 5
 
 import static org.junit.jupiter.api.Assertions.*; // JUnit 5 Assertions
 
-class NewDeckTest {
+class DeckTest { // Renamed NewDeckTest to DeckTest
 
     @Test
     void getDeckSize_returns52() {
@@ -20,7 +20,7 @@ class NewDeckTest {
         Card card = Card.fromString("AS"); // Ace of Spades
         assertTrue(Deck.isInDeck(card), "A standard card like Ace of Spades should be in the deck.");
 
-        Card card2 = Card.fromString("h2"); // Two of Hearts
+        Card card2 = Card.fromString("2H"); // Two of Hearts, ValueSuite format
         assertTrue(Deck.isInDeck(card2), "A standard card like Two of Hearts should be in the deck.");
     }
 
@@ -46,21 +46,21 @@ class NewDeckTest {
     void fromString_forCardValueNotInDeck_throwsInvalidPokerHandException() {
         // This test confirms that Card.fromString, which uses Deck.isInDeck,
         // throws an exception for cards that are syntactically parseable but not standard.
+        // Input "1S" will be rejected by Card.parseValue before Deck.isInDeck is called.
         Exception exception = assertThrows(InvalidPokerHandException.class, () -> {
-            Card.fromString("S1"); // "S1" can be parsed by basic logic but Deck.isInDeck should reject it
+            Card.fromString("1S");
         });
-        assertTrue(exception.getMessage().contains("Card(S1) is not in deck"));
+        assertEquals("Invalid card value: '1'. Expected A,K,Q,J,T,10,9-2. Input was: '1S'", exception.getMessage());
     }
 
     @Test
     void fromString_forCardSuitNotInDeck_throwsInvalidPokerHandException() {
-        // This test confirms that Card.fromString, which uses Deck.isInDeck,
-        // throws an exception for cards that are syntactically parseable but not standard.
+        // This test confirms that Card.fromString
+        // throws an exception for cards with invalid suit characters.
         Exception exception = assertThrows(InvalidPokerHandException.class, () -> {
-            Card.fromString("X5");
+            Card.fromString("5X"); // Value 5, Suit X (invalid)
         });
-        // The exact message might come from suite validation or isInDeck.
-        // Card.fromString's getSuiteFromCardStringStatic now validates suite characters first.
-        assertTrue(exception.getMessage().contains("Invalid suite character: X"));
+        // Message comes from Card.parseSuite
+        assertTrue(exception.getMessage().contains("Invalid suite character: 'X'"));
     }
 }

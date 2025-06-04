@@ -21,7 +21,7 @@ import static org.hamcrest.Matchers.instanceOf; // For model attribute type chec
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(PokerHandsController.class)
-class NewPokerHandsControllerTest {
+class PokerHandsControllerTest { // Renamed NewPokerHandsControllerTest to PokerHandsControllerTest
 
     @Autowired
     private MockMvc mockMvc;

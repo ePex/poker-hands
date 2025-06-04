@@ -103,8 +103,8 @@ class HandComparatorTest {
         ComparisonOutcome outcome = comparator.determineWinner(hand1, hand2);
 
         assertEquals(Winner.DRAW, outcome.winner());
-        assertEquals(Rank.HIGH_CARD, outcome.firstHandRank());
-        assertEquals(Rank.HIGH_CARD, outcome.secondHandRank());
+        assertEquals(Rank.STRAIGHT, outcome.firstHandRank()); // Corrected from HIGH_CARD
+        assertEquals(Rank.STRAIGHT, outcome.secondHandRank()); // Corrected from HIGH_CARD
     }
 
     // Parameterized test for various comparisons
@@ -113,7 +113,7 @@ class HandComparatorTest {
         "AS KS QS JS TS, 2H 3C 4D 5S 6H, FIRST_HAND, ROYAL_FLUSH, STRAIGHT", // Royal Flush vs Straight
         "2H 3C 4D 5S 6H, AS KS QS JS TS, SECOND_HAND, STRAIGHT, ROYAL_FLUSH", // Straight vs Royal Flush
         "AS AH KS QS JS, KD KH QC QH JC, SECOND_HAND, PAIR, TWO_PAIRS",      // Pair vs Two Pair
-        "AS AH AD KS KH, KC KD KH QC QH, FIRST_HAND, FULL_HOUSE, THREE_OF_A_KIND", // Full House vs Three of a Kind
+        "AS AH AD KS KH, KC KD KH QC QH, FIRST_HAND, FULL_HOUSE, FULL_HOUSE", // Corrected: Full House vs Full House
         "AS KS QS JS 9S, AD KD QD JD 8D, FIRST_HAND, FLUSH, FLUSH",          // Flush (Ace high) vs Flush (King high)
         "AS AH KS KH QH, AD AC KD KC QC, DRAW, TWO_PAIRS, TWO_PAIRS"       // Two Pair Draw (same kickers)
     })

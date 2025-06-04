@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-class NewEvaluatorTest {
+class EvaluatorTest { // Renamed NewEvaluatorTest to EvaluatorTest
 
     private final static String VALID_HAND_STR_1 = "AS KS QS JS TS"; // Represents Royal Flush
     private final static String VALID_HAND_STR_2 = "2H 3H 4H 5H 6H"; // Represents Straight Flush (6 high)
